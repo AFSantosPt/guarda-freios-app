@@ -49,11 +49,33 @@ function LoginPage() {
   const [funcionario, setFuncionario] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    login(funcionario)
-    navigate('/dashboard')
+const handleLogin = async (e) => {
+  e.preventDefault()
+
+  try {
+    const apiUrl = import.meta.env.VITE_API_URL
+    const response = await fetch(`${apiUrl}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: funcionario,
+        pass: password,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (response.ok && data.success) {
+      login(funcionario)
+      navigate("/dashboard")
+    } else {
+      alert(data.message || "Credenciais inválidas")
+    }
+  } catch (error) {
+    console.error("Erro a ligar à API:", error)
+    alert("Erro no servidor. Tenta novamente mais tarde.")
   }
+}
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
