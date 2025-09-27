@@ -1,8 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
+import DashboardPage from './pages/DashboardPage';
+import OrdensServicoPage from './pages/OrdensServicoPage';
+import DetalhesOrdemPage from './pages/DetalhesOrdemPage';
+import CarreiraPage from './pages/CarreiraPage';
+import ChatCarreiraPage from './pages/ChatCarreiraPage';
+import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
-import { useState, createContext, useContext } from 'react'
+import PesquisaCarrosPage from './pages/PesquisaCarrosPage';
+import UserManagementPage from './pages/UserManagementPage';
+import ConsultarServicoPage from './pages/ConsultarServicoPage';
+import { useState, createContext, useContext } from 'react';
 import './App.css'
 
 // Context para autenticação
@@ -144,7 +153,7 @@ function DashboardPage() {
     { title: '25E', onClick: () => navigate('/carreira'), icon: '🚋' },
     { title: '28E', onClick: () => navigate('/carreira'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
-    { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' }
+    { title: 'Agenda', onClick: () => navigate('/gestao-horarios'), icon: '🕐' }
   ]
 
   return (
