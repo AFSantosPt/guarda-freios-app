@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { 
   FileText, 
@@ -52,7 +51,7 @@ export default function DashboardPage() {
     { 
       title: 'Agenda', 
       icon: '🗓️', 
-      onClick: () => navigate('/consultar-servico'), // 👉 agora vai para a tua nova página
+      onClick: () => navigate('/consultar-servico'),
       bgColor: 'bg-purple-50 hover:bg-purple-100',
       iconColor: 'text-purple-600'
     },
@@ -70,7 +69,7 @@ export default function DashboardPage() {
     { title: 'Ordens', icon: '📋', rota: '/ordens-servico' },
     { title: 'Carreiras', icon: '🚋', rota: '/carreira' },
     { title: 'Avarias', icon: '⚠️', rota: '/gestao-avarias' },
-    { title: 'Agenda', icon: '🗓️', rota: '/consultar-servico' }, // 👉 substitui Horários
+    { title: 'Agenda', icon: '🗓️', rota: '/consultar-servico' },
     { title: 'Serviços', icon: '⚙️', rota: '/gestao-utilizadores' }
   ]
 
@@ -78,13 +77,16 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm px-4 py-4 flex justify-between items-center">
-  <h1 className="text-xl font-bold text-gray-900">Guarda-Freios</h1>
-  <button className="text-blue-600 flex items-center">
-    <span className="text-2xl">☰</span>
-    <span className="ml-1">Menu</span>
-  </button>
-</header>
-
+        <h1 className="text-xl font-bold text-gray-900">Guarda-Freios</h1>
+        <Button 
+          variant="outline" 
+          className="flex items-center space-x-2"
+          onClick={() => console.log("Menu aberto")}
+        >
+          <Menu className="w-5 h-5" />
+          <span>Menu</span>
+        </Button>
+      </header>
 
       {/* Main Content */}
       <main className="flex-1 p-4">
@@ -129,4 +131,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-
