@@ -4,22 +4,84 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useAuth } from "../App";
 
+// 🔹 Componente calendário em grid (sem dependências externas)
+function CalendarGrid({ selectedDate, onSelectDate }) {
+  const [currentDate, setCurrentDate] = useState(selectedDate || new Date());
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const daysArray = [...Array(daysInMonth).keys()].map((d) => d + 1);
+
+  const handlePrevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
+  const handleNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
+
+  return (
+    <div className="bg-white shadow rounded-lg p-4 mb-6">
+      <div className="flex justify-between items-center mb-4">
+        <button onClick={handlePrevMonth} className="px-3 py-1 bg-gray-200 rounded">←</button>
+        <h2 className="text-lg font-bold">
+          {currentDate.toLocaleString("pt-PT", { month: "long", year: "numeric" })}
+        </h2>
+        <button onClick={handleNextMonth} className="px-3 py-1 bg-gray-200 rounded">→</button>
+      </div>
+
+      <div className="grid grid-cols-7 text-center font-semibold text-gray-600 mb-2">
+        {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].map((d, i) => (
+          <div key={i}>{d}</div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-7 gap-1 text-center">
+        {[...Array(firstDay).keys()].map((_, i) => (
+          <div key={`empty-${i}`} />
+        ))}
+        {daysArray.map((day) => {
+          const isSelected =
+            selectedDate &&
+            selectedDate.getDate() === day &&
+            selectedDate.getMonth() === month &&
+            selectedDate.getFullYear() === year;
+
+          return (
+            <div
+              key={day}
+              className={`p-2 cursor-pointer rounded-lg ${
+                isSelected ? "bg-blue-600 text-white font-bold" : "hover:bg-blue-100"
+              }`}
+              onClick={() => onSelectDate(new Date(year, month, day))}
+            >
+              {day}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function ConsultarServicoPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [dataSelecionada, setDataSelecionada] = useState(new Date());
   const [servico, setServico] = useState({ partes: [] });
-  const [novasPartes, setNovasPartes] = useState([{ numero: "", inicio: "", fim: "", viatura: "", afetacao: "" }]);
+  const [novasPartes, setNovasPartes] = useState([
+    { numero: "", inicio: "", fim: "", viatura: "", afetacao: "" },
+  ]);
   const [chapas, setChapas] = useState([]);
   const [servicosUpload, setServicosUpload] = useState([]);
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
+  // 🔹 Buscar serviços ao backend quando muda a data
   useEffect(() => {
     const dataStr = dataSelecionada.toISOString().split("T")[0];
     fetch(`${apiUrl}/servicos/${dataStr}`)
       .then((res) => res.json())
-      .then((dados) => setServico(dados));
+      .then((dados) => setServico(dados))
+      .catch(() => setServico({ partes: [] }));
   }, [dataSelecionada]);
 
   const handleChange = (i, field, value) => {
@@ -29,9 +91,13 @@ export default function ConsultarServicoPage() {
   };
 
   const addParte = () =>
-    setNovasPartes([...novasPartes, { numero: "", inicio: "", fim: "", viatura: "", afetacao: "" }]);
+    setNovasPartes([
+      ...novasPartes,
+      { numero: "", inicio: "", fim: "", viatura: "", afetacao: "" },
+    ]);
 
-  const removeParte = (i) => setNovasPartes(novasPartes.filter((_, idx) => idx !== i));
+  const removeParte = (i) =>
+    setNovasPartes(novasPartes.filter((_, idx) => idx !== i));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +132,10 @@ export default function ConsultarServicoPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Cabeçalho */}
       <header className="bg-white shadow-sm px-4 py-4 flex items-center">
-        <button onClick={() => navigate("/dashboard")} className="mr-4 p-2 text-blue-600">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="mr-4 p-2 text-blue-600"
+        >
           ←
         </button>
         <h1 className="text-xl font-bold text-gray-900">Serviços</h1>
@@ -74,12 +143,7 @@ export default function ConsultarServicoPage() {
 
       <main className="p-4 space-y-6">
         {/* Calendário */}
-        <div className="bg-white rounded-lg shadow-sm border p-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">📅 Calendário</h2>
-          <div className="flex justify-center">
-            <Calendar onChange={setDataSelecionada} value={dataSelecionada} />
-          </div>
-        </div>
+        <CalendarGrid selectedDate={dataSelecionada} onSelectDate={setDataSelecionada} />
 
         {/* Lista de Serviços */}
         <div className="bg-white rounded-lg shadow-sm border p-4">
@@ -92,7 +156,9 @@ export default function ConsultarServicoPage() {
                 key={i}
                 className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition"
               >
-                <h3 className="font-bold text-blue-600 text-center">Parte {i + 1} – Serviço {parte.numero}</h3>
+                <h3 className="font-bold text-blue-600 text-center">
+                  Parte {i + 1} – Serviço {parte.numero}
+                </h3>
                 <p className="text-center text-gray-700 mt-2">
                   ⏰ {parte.inicio} → {parte.fim}
                 </p>
@@ -101,13 +167,17 @@ export default function ConsultarServicoPage() {
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-center">Nenhum serviço registado neste dia.</p>
+            <p className="text-gray-500 text-center">
+              Nenhum serviço registado neste dia.
+            </p>
           )}
         </div>
 
         {/* Adicionar Serviços */}
         <div className="bg-white rounded-lg shadow-sm border p-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">➕ Adicionar Serviços</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">
+            ➕ Adicionar Serviços
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             {novasPartes.map((parte, i) => (
               <div key={i} className="bg-gray-50 border p-3 rounded-lg space-y-2 shadow-sm">
@@ -143,10 +213,12 @@ export default function ConsultarServicoPage() {
           </form>
         </div>
 
-        {/* Gestão Avançada */}
+        {/* Gestão Avançada (Tripulante+) */}
         {user?.tipo === "Tripulante+" && (
           <div className="bg-white rounded-lg shadow-sm border p-4">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">⚙️ Gestão Avançada</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">
+              ⚙️ Gestão Avançada
+            </h2>
 
             {/* Chapas */}
             <div className="mb-6">
