@@ -212,6 +212,13 @@ function DashboardPage() {
         </div>
       </main>
 
+<Route path="/consultar-servico" element={
+  <ProtectedRoute>
+    <ConsultarServicoPage />
+  </ProtectedRoute>
+} />
+
+
 <nav className="bg-white border-t border-gray-200 px-4 py-2">
   <div className="flex justify-between items-center">
     {['Início', 'Ordens', 'Carreiras', 'Avarias', 'Horários', 'Serviços'].map((item, index) => (
