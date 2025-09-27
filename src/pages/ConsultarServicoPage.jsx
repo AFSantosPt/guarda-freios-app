@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../App";
+import Calendar from "react-calendar"
 
 // 🔹 Calendário custom (sem dependências externas)
 function CalendarGrid({ selectedDate, onSelectDate }) {

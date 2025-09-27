@@ -14,6 +14,14 @@ import ConsultarServicoPage from './pages/ConsultarServicoPage';
 import { useState, createContext, useContext } from 'react';
 import './App.css'
 
+
+<Route path="/consultar-servico" element={
+  <ProtectedRoute>
+    <ConsultarServicoPage />
+  </ProtectedRoute>
+} />
+
+
 // Context para autenticação
 const AuthContext = createContext()
 
@@ -204,23 +212,31 @@ function DashboardPage() {
         </div>
       </main>
 
-      <nav className="bg-white border-t border-gray-200 px-4 py-2">
-        <div className="flex justify-between items-center">
-          {['Início', 'Ordens', 'Carreiras', 'Avarias', 'Horários', 'Serviços'].map((item, index) => (
-            <button
-              key={index}
-              className={`flex flex-col items-center py-2 px-1 rounded-lg transition-colors duration-200 ${
-                index === 0 ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <span className="text-lg mb-1">
-                {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '🚋' : index === 3 ? '⚠️' : index === 4 ? '🕐' : '⚙️'}
-              </span>
-              <span className="text-xs font-medium">{item}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
+<nav className="bg-white border-t border-gray-200 px-4 py-2">
+  <div className="flex justify-between items-center">
+    {['Início', 'Ordens', 'Carreiras', 'Avarias', 'Horários', 'Serviços'].map((item, index) => (
+      <button
+        key={index}
+        onClick={() => {
+          if (index === 0) navigate('/dashboard')
+          if (index === 1) navigate('/ordens-servico')
+          if (index === 2) navigate('/carreira')
+          if (index === 3) navigate('/gestao-avarias')
+          if (index === 4) navigate('/gestao-horarios')
+          if (index === 5) navigate('/consultar-servico')  // <- aqui entra o calendário
+        }}
+        className={`flex flex-col items-center py-2 px-1 rounded-lg transition-colors duration-200 ${
+          index === 0 ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+        }`}
+      >
+        <span className="text-lg mb-1">
+          {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '🚋' : index === 3 ? '⚠️' : index === 4 ? '🕐' : '⚙️'}
+        </span>
+        <span className="text-xs font-medium">{item}</span>
+      </button>
+    ))}
+  </div>
+</nav>
     </div>
   )
 }
