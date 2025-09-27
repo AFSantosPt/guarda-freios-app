@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../App";
 
-// 🔹 Calendário feito em React puro
+// 🔹 Calendário custom (sem dependências externas)
 function CalendarGrid({ selectedDate, onSelectDate }) {
   const [currentDate, setCurrentDate] = useState(selectedDate || new Date());
 
@@ -71,7 +71,7 @@ export default function ConsultarServicoPage() {
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  // 🔹 Carregar serviços do backend
+  // 🔹 Buscar serviços ao backend
   useEffect(() => {
     const dataStr = dataSelecionada.toISOString().split("T")[0];
     fetch(`${apiUrl}/servicos/${dataStr}`)
@@ -129,10 +129,10 @@ export default function ConsultarServicoPage() {
       </header>
 
       <main className="p-4 space-y-6">
-        {/* Calendário */}
+        {/* 🔹 Calendário */}
         <CalendarGrid selectedDate={dataSelecionada} onSelectDate={setDataSelecionada} />
 
-        {/* Lista de Serviços */}
+        {/* 🔹 Lista de Serviços */}
         <div className="bg-white rounded-lg shadow-sm border p-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">
             Serviços em {dataSelecionada.toLocaleDateString("pt-PT")}
@@ -151,7 +151,7 @@ export default function ConsultarServicoPage() {
           )}
         </div>
 
-        {/* Adicionar Serviços */}
+        {/* 🔹 Adicionar Serviços */}
         <div className="bg-white rounded-lg shadow-sm border p-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">➕ Adicionar Serviços</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -162,7 +162,6 @@ export default function ConsultarServicoPage() {
                 <input type="text" placeholder="Fim (HH:mm)" value={parte.fim} onChange={(e) => handleChange(i, "fim", e.target.value)} className="border w-full p-2 rounded-lg" />
                 <input type="text" placeholder="Viatura" value={parte.viatura} onChange={(e) => handleChange(i, "viatura", e.target.value)} className="border w-full p-2 rounded-lg" />
                 <input type="text" placeholder="Afetação" value={parte.afetacao} onChange={(e) => handleChange(i, "afetacao", e.target.value)} className="border w-full p-2 rounded-lg" />
-
                 <button type="button" onClick={() => removeParte(i)} className="text-red-600">❌ Remover</button>
               </div>
             ))}
@@ -173,7 +172,7 @@ export default function ConsultarServicoPage() {
           </form>
         </div>
 
-        {/* Gestão Avançada (Tripulante+) */}
+        {/* 🔹 Gestão Avançada (Tripulante+) */}
         {user?.tipo === "Tripulante+" && (
           <div className="bg-white rounded-lg shadow-sm border p-4">
             <h2 className="text-lg font-semibold text-gray-900 mb-3 text-center">⚙️ Gestão Avançada</h2>
