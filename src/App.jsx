@@ -495,7 +495,7 @@ function UserManagementPage() {
   const [password, setPassword] = useState('')
   const [tipoUtilizador, setTipoUtilizador] = useState('Tripulante')
   const [utilizadores, setUtilizadores] = useState([
-    { id: 1, numero: '18001', tipo: 'Tripulante+' },
+    { id: 1, numero: '180939', tipo: 'Tripulante+' },
     { id: 2, numero: '18002', tipo: 'Tripulante' },
     { id: 3, numero: '18003', tipo: 'Tripulante' }
   ])
