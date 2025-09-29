@@ -328,10 +328,10 @@ const CalendarioPage = () => {
           </div>
         )}
 
-        {/* Gestão Extra para Tripulante+ */}
-        {user?.tipo === 'Tripulante+' && (
+        {/* Gestão Extra para Gestor */}
+        {user?.tipo === 'Gestor' && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">Gestão Extra (Tripulante+)</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-4">Gestão Extra (Gestor)</h2>
             
             {/* Upload de Chapas */}
             <div className="mb-6">

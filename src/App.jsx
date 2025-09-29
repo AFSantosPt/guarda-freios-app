@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
+import Carreira12EPage from './pages/Carreira12EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
@@ -28,7 +29,10 @@ function AuthProvider({ children }) {
   const login = (numeroFuncionario) => {
     // Simular verificação de tipo de utilizador
     // Em uma aplicação real, isso viria de uma API
-    const userType = numeroFuncionario === '18001' ? 'Tripulante+' : 'Tripulante'
+    let userType = 'Tripulante'
+    if (numeroFuncionario === '18001' || numeroFuncionario === '180939') {
+      userType = 'Gestor'
+    }
     setUser({ numero: numeroFuncionario, tipo: userType })
   }
 
@@ -116,7 +120,7 @@ function DashboardPage() {
 
   const menuItems = [
     { title: 'Ordens de Serviço', onClick: () => navigate('/ordens-servico'), icon: '📋' },
-    { title: '12E', onClick: () => navigate('/carreira'), icon: '🚋' },
+    { title: '12E', onClick: () => navigate('/carreira-12e'), icon: '🚋' },
     { title: '15E', onClick: () => navigate('/carreira'), icon: '🚋' },
     { title: '18E', onClick: () => navigate('/carreira'), icon: '🚋' },
     { title: '24E', onClick: () => navigate('/carreira'), icon: '🚋' },
@@ -139,7 +143,7 @@ function DashboardPage() {
           )}
         </div>
         <div className="flex items-center space-x-2">
-          {user?.tipo === 'Tripulante+' && (
+          {user?.tipo === 'Gestor' && (
             <button 
               onClick={() => navigate('/gestao-utilizadores')}
               className="text-blue-600 font-medium text-sm"
@@ -397,13 +401,6 @@ function CarreiraPage() {
           </p>
         </div>
       </main>
-
-      {/* Chat Bubble - Como posso ajudar? */}
-      <div className="fixed bottom-6 right-6">
-        <div className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg">
-          <span className="text-sm">Como posso ajudar?</span>
-        </div>
-      </div>
     </div>
   )
 }
@@ -495,7 +492,7 @@ function UserManagementPage() {
   const [password, setPassword] = useState('')
   const [tipoUtilizador, setTipoUtilizador] = useState('Tripulante')
   const [utilizadores, setUtilizadores] = useState([
-    { id: 1, numero: '180939', tipo: 'Tripulante+' },
+    { id: 1, numero: '18001', tipo: 'Tripulante+' },
     { id: 2, numero: '18002', tipo: 'Tripulante' },
     { id: 3, numero: '18003', tipo: 'Tripulante' }
   ])
@@ -571,7 +568,7 @@ function UserManagementPage() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="Tripulante">Tripulante</option>
-                <option value="Tripulante+">Tripulante+</option>
+                <option value="Gestor">Gestor</option>
               </select>
             </div>
 
@@ -598,7 +595,7 @@ function UserManagementPage() {
                   <p className="text-sm text-gray-600">{user.tipo}</p>
                 </div>
                 <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                  user.tipo === 'Tripulante+' 
+                  user.tipo === 'Gestor' 
                     ? 'bg-green-100 text-green-800' 
                     : 'bg-blue-100 text-blue-800'
                 }`}>
@@ -623,13 +620,13 @@ function ProtectedRoute({ children, requireTripulantePlus = false }) {
     return null
   }
 
-  if (requireTripulantePlus && user.tipo !== 'Tripulante+') {
+  if (requireTripulantePlus && user.tipo !== 'Gestor') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Acesso Negado</h2>
           <p className="text-gray-600 mb-6">
-            Esta funcionalidade está disponível apenas para utilizadores Tripulante+.
+            Esta funcionalidade está disponível apenas para utilizadores Gestor.
           </p>
           <button
             onClick={() => navigate('/dashboard')}
@@ -773,6 +770,7 @@ function App() {
             } />
            <Route path="/consultar-servico" element={<ConsultarServicoPage />} />
            <Route path="/calendario" element={<CalendarioPage />} />
+           <Route path="/carreira-12e" element={<Carreira12EPage />} />
           <Route path="/gestao-avarias" element={<GestaoAvariasPage />} />
           <Route path="/gestao-horarios" element={<GestaoHorariosPage />} />
             <Route path="/pesquisa-carros" element={

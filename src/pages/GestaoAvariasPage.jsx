@@ -54,7 +54,7 @@ function GestaoAvariasPage() {
     return matchChapa && matchEstado && matchData;
   });
 
-  const isTripulantePlus = user && user.tipo === 'Tripulante+';
+  const isTripulantePlus = user && user.tipo === 'Gestor';
 
   return (
     <div className="min-h-screen bg-gray-50">
