@@ -4,11 +4,11 @@ import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
 import CarreiraPage from './pages/CarreiraPage';
 import Carreira12EPage from './pages/Carreira12EPage';
-import Carreira15EPage from './pages/Carreira15EPage';
-import Carreira18EPage from './pages/Carreira18EPage';
-import Carreira24EPage from './pages/Carreira24EPage';
-import Carreira25EPage from './pages/Carreira25EPage';
-import Carreira28EPage from './pages/Carreira28EPage';
+import Carreira15EPage from './pages/Carreira15E';
+import Carreira18EPage from './pages/Carreira18E';
+import Carreira24EPage from './pages/Carreira24E';
+import Carreira25EPage from './pages/Carreira25E';
+import PesquisaCarrosPage from './pages/PesquisaCarrosPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
@@ -127,11 +127,11 @@ function DashboardPage() {
   const menuItems = [
     { title: 'Ordens de Serviço', onClick: () => navigate('/ordens-servico'), icon: '📋' },
     { title: '12E', onClick: () => navigate('/carreira-12e'), icon: '🚋' },
-    { title: '15E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '18E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '24E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '25E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '28E', onClick: () => navigate('/carreira'), icon: '🚋' },
+    { title: '15E', onClick: () => navigate('/carreira-15e'), icon: '🚋' },
+    { title: '18E', onClick: () => navigate('/carreira-18e'), icon: '🚋' },
+    { title: '24E', onClick: () => navigate('/carreira-24e'), icon: '🚋' },
+    { title: '25E', onClick: () => navigate('/carreira-25e'), icon: '🚋' },
+    { title: '28E', onClick: () => navigate('/carreira-28e'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
     { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' },
     { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' }
@@ -193,7 +193,7 @@ function DashboardPage() {
               onClick={() => {
                 if (item === "Início") navigate("/dashboard");
                 else if (item === "Ordens") navigate("/ordens-servico");
-                else if (item === "Carreiras") navigate("/carreira"); // Pode ser ajustado para uma página de listagem de carreiras
+                else if (item === "Carreiras") navigate("/carreira-28e"); // Pode ser ajustado para uma página de listagem de carreiras
                 else if (item === "Avarias") navigate("/gestao-avarias");
                 else if (item === "Horários") navigate("/gestao-horarios");
                 else if (item === "Calendário") navigate("/calendario");
@@ -623,6 +623,11 @@ function App() {
            <Route path="/consultar-servico" element={<ConsultarServicoPage />} />
            <Route path="/calendario" element={<CalendarioPage />} />
            <Route path="/carreira-12e" element={<Carreira12EPage />} />
+           <Route path="/carreira-15e" element={<Carreira15EPage />} />
+           <Route path="/carreira-18e" element={<Carreira18EPage />} />
+           <Route path="/carreira-24e" element={<Carreira24EPage />} />
+           <Route path="/carreira-25e" element={<Carreira25EPage />} />
+           <Route path="/carreira-28e" element={<CarreiraPage />} />
           <Route path="/gestao-avarias" element={<GestaoAvariasPage />} />
           <Route path="/gestao-horarios" element={<GestaoHorariosPage />} />
             <Route path="/pesquisa-carros" element={

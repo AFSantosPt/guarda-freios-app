@@ -5,10 +5,21 @@ function ChatCarreiraPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const carreiraAtual = searchParams.get('carreira') || '28E';
-  
-  const [messages, setMessages] = useState([
-    { type: 'bot', text: `Olá! Sou o assistente de IA da Carreira ${carreiraAtual}. Posso ajudá-lo com informações sobre horários, paragens, interrupções e ordens de serviço desta carreira.` }
-  ]);
+  const CARREIRA_ROUTES = {
+    '12E': '/carreira-12e',
+    '15E': '/carreira-15e',
+    '18E': '/carreira-18e',
+    '24E': '/carreira-24e',
+    '25E': '/carreira-25e',
+    '28E': '/carreira-28e'
+  };
+
+  const criarMensagemBoasVindas = (carreira) => ({
+    type: 'bot',
+    text: `Olá! Sou o assistente de IA da Carreira ${carreira}. Posso ajudá-lo com informações sobre horários, paragens, interrupções e ordens de serviço desta carreira.`
+  });
+
+  const [messages, setMessages] = useState(() => [criarMensagemBoasVindas(carreiraAtual)]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
@@ -24,34 +35,54 @@ function ChatCarreiraPage() {
     const info = {
       '12E': {
         horario: 'A Carreira 12E funciona das 06:00 às 01:00, com frequência de 6-8 minutos.',
-        paragens: 'As principais paragens da Carreira 12E incluem Martim Moniz, Socorro, Limoeiro, Sé, Chiado e Pç. Luís Camões.',
-        percurso: 'Percurso: Martim Moniz ↔ Pç. Luís Camões'
+        paragens: 'Paragens principais: Martim Moniz, Socorro, Largo das Portas do Sol, Sé, Chiado e Praça Luís de Camões.',
+        percurso: 'Percurso: Martim Moniz ↔ Praça Luís de Camões'
       },
       '15E': {
         horario: 'A Carreira 15E funciona das 06:30 às 00:30, com frequência de 8-10 minutos.',
-        paragens: 'As principais paragens da Carreira 15E incluem Pç. Figueira, Cais Sodré, Santos, Belém, Mosteiro Jerónimos e Algés.',
-        percurso: 'Percurso: Pç. Figueira ↔ Algés (Jardim)'
+        paragens: 'Paragens principais: Praça da Figueira, Cais do Sodré, Santos, Museu Nacional de Arte Antiga, Belém e Algés (Jardim).',
+        percurso: 'Percurso: Praça da Figueira ↔ Algés (Jardim)'
+      },
+      '18E': {
+        horario: 'A Carreira 18E funciona das 07:00 às 22:30, com frequência média de 10 minutos.',
+        paragens: 'Paragens principais: Cais do Sodré, Santos, Museu Nacional de Arte Antiga, Palácio Nacional da Ajuda e Cemitério da Ajuda.',
+        percurso: 'Percurso: Cais do Sodré ↔ Cemitério da Ajuda'
+      },
+      '24E': {
+        horario: 'A Carreira 24E funciona das 07:00 às 20:30, com circulação reforçada nas horas de ponta.',
+        paragens: 'Paragens principais: Campolide, Amoreiras, Largo do Rato, Príncipe Real, Chiado e Praça Luís de Camões.',
+        percurso: 'Percurso: Campolide ↔ Praça Luís de Camões'
+      },
+      '25E': {
+        horario: 'A Carreira 25E funciona das 06:30 às 21:30, com frequência de 10-12 minutos.',
+        paragens: 'Paragens principais: Campo de Ourique (Prazeres), Basílica da Estrela, Assembleia da República, Chiado e Campo das Cebolas.',
+        percurso: 'Percurso: Campo de Ourique (Prazeres) ↔ Campo das Cebolas'
       },
       '28E': {
-        horario: 'A Carreira 28E funciona das 06:00 às 23:30, com frequência de 8-12 minutos.',
-        paragens: 'As principais paragens da Carreira 28E incluem Martim Moniz, Graça, Estrela e Prazeres.',
+        paragens: 'Paragens principais: Martim Moniz, Graça, Sé, Chiado, Estrela e Campo de Ourique (Prazeres).',
+        percurso: 'Percurso circular: Martim Moniz → Graça → Baixa → Chiado → Estrela → Campo de Ourique (Prazeres) → Martim Moniz'
         percurso: 'Percurso circular: Martim Moniz → Campo de Ourique → Prazeres → Estrela → Graça → Martim Moniz'
       }
     };
     return info[carreira] || info['28E'];
   };
 
-  const handleSend = () => {
-    if (input.trim() === '') return;
+  useEffect(() => {
+    setMessages([criarMensagemBoasVindas(carreiraAtual)]);
+  }, [carreiraAtual]);
 
-    const newMessages = [...messages, { type: 'user', text: input }];
-    setMessages(newMessages);
+  const handleSend = () => {
+    const trimmedInput = input.trim();
+    if (trimmedInput === '') return;
+
+
+    setMessages((prevMessages) => [...prevMessages, { type: 'user', text: trimmedInput }]);
     setInput('');
 
     // Simular resposta do bot
     setTimeout(() => {
       let botResponse = 'Desculpe, não compreendi a sua pergunta. Pode reformular, por favor?';
-      const lowerInput = input.toLowerCase();
+      const lowerInput = trimmedInput.toLowerCase();
       const carreiraInfo = getCarreiraInfo(carreiraAtual);
 
       // Verificar se a pergunta é sobre outra carreira
@@ -103,13 +134,13 @@ function ChatCarreiraPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white shadow-sm px-4 py-4 flex items-center">
-        <button 
-          onClick={() => navigate('/carreira')}
+        <button
+          onClick={() => navigate(CARREIRA_ROUTES[carreiraAtual] || '/carreira-28e')}
           className="mr-4 p-2 text-blue-600"
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Chat AI - Carreira 28E</h1>
+        <h1 className="text-xl font-bold text-gray-900">Chat AI - Carreira {carreiraAtual}</h1>
       </header>
 
       <main className="flex-1 p-4 overflow-y-auto">

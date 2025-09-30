@@ -171,7 +171,7 @@ export default function CarreiraPage() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => navigate('/chat-carreira')}
+          onClick={() => navigate('/chat-carreira?carreira=28E')}
           className="hidden sm:flex items-center space-x-2"
         >
           <MessageCircle className="w-4 h-4" />
@@ -402,7 +402,7 @@ export default function CarreiraPage() {
             <TramFront className="w-4 h-4 mr-2 text-yellow-600" />
             Dados simulados para a carreira 28E.
           </div>
-          <Button onClick={() => navigate('/chat-carreira')} className="flex items-center justify-center gap-2">
+          <Button onClick={() => navigate('/chat-carreira?carreira=28E')} className="flex items-center justify-center gap-2">
             <MessageCircle className="w-4 h-4" /> Abrir chat com IA
           </Button>
         </div>

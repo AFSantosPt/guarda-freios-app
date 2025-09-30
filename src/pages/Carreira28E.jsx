@@ -1,28 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import { carreiraParagens } from '../lib/carreiraParagens';
 
-const Carreira12EPage = () => {
+const Carreira28EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+
+  const paragens = carreiraParagens['28E'];
   
-  // Dados fixos das paragens da Carreira 12E
-  const paragens = [
-    'Martim Moniz',
-    'Socorro',
-    'Lg. Terreirinho',
-    'R. Lagares',
-    'S. Tomé',
-    'Lg. Portas Sol',
-    'Sta. Luzia',
-    'Limoeiro',
-    'Sé',
-    'R. Conceição',
-    'Lg. Academia Nac. Belas Artes',
-    'R. Serpa Pinto',
-    'Chiado',
-    'Pç. Luís Camões'
-  ];
+
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
@@ -114,7 +101,7 @@ const Carreira12EPage = () => {
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Carreira 12E</h1>
+        <h1 className="text-xl font-bold text-gray-900">Carreira 28E</h1>
       </header>
 
       <main className="p-4 space-y-6">
@@ -225,19 +212,19 @@ const Carreira12EPage = () => {
 
         {/* Chat AI */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 12E</h2>
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 28E</h2>
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-blue-800 mb-2">
-              🤖 Olá! Sou o assistente da Carreira 12E. Posso ajudar com:
+              🤖 Olá! Sou o assistente da Carreira 28E. Posso ajudar com:
             </p>
             <ul className="text-xs text-blue-700 space-y-1">
-              <li>• Horários e frequências da 12E</li>
+              <li>• Horários e frequências da 28E</li>
               <li>• Estado das paragens</li>
               <li>• Interrupções de serviço</li>
               <li>• Informações sobre esta carreira</li>
             </ul>
             <button
-              onClick={() => navigate('/chat-carreira?carreira=12E')}
+              onClick={() => navigate('/chat-carreira?carreira=28E')}
               className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
             >
               Iniciar Chat
@@ -249,5 +236,5 @@ const Carreira12EPage = () => {
   );
 };
 
-export default Carreira12EPage;
+export default Carreira28EPage;
 

@@ -6,23 +6,7 @@ const Carreira12EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   
-  // Dados fixos das paragens da Carreira 12E
-  const paragens = [
-    'Martim Moniz',
-    'Socorro',
-    'Lg. Terreirinho',
-    'R. Lagares',
-    'S. Tomé',
-    'Lg. Portas Sol',
-    'Sta. Luzia',
-    'Limoeiro',
-    'Sé',
-    'R. Conceição',
-    'Lg. Academia Nac. Belas Artes',
-    'R. Serpa Pinto',
-    'Chiado',
-    'Pç. Luís Camões'
-  ];
+  const paragens = carreiraParagens['12E'];
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
