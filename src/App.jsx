@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
+import CarreiraPage from './pages/CarreiraPage';
 import Carreira12EPage from './pages/Carreira12EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import { useState, createContext, useContext } from 'react'
@@ -330,80 +331,7 @@ function DetalhesOrdemPage() {
   )
 }
 
-// Página Carreira
-function CarreiraPage() {
-  const navigate = useNavigate()
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm px-4 py-4 flex items-center">
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="mr-4 p-2 text-blue-600"
-        >
-          ←
-        </button>
-        <h1 className="text-xl font-bold text-gray-900">Carreira 28E</h1>
-      </header>
-
-      <main className="p-4">
-        {/* Mapa da Carreira */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center">Mapa em Tempo Real</h2>
-          <div className="flex justify-center">
-            <img 
-              src="/mapa_carreira_28e.png" 
-              alt="Mapa da Carreira 28E" 
-              className="w-full max-w-sm h-auto rounded-lg"
-            />
-          </div>
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">
-              🚋 Elétricos ativos: 2 | Última atualização: {new Date().toLocaleTimeString('pt-PT')}
-            </p>
-          </div>
-        </div>
-
-        {/* Informações da Carreira */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Informações da Linha</h3>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Frequência:</span>
-              <span className="font-medium">8-12 min</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Horário:</span>
-              <span className="font-medium">06:00 - 23:30</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Percurso:</span>
-              <span className="font-medium">Circular</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Duração:</span>
-              <span className="font-medium">~45 min</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Botão para Chat AI */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <button 
-            onClick={() => navigate('/chat-carreira')}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-          >
-            <span className="mr-2">💬</span>
-            Chat AI - Carreira 28E
-          </button>
-          <p className="text-xs text-gray-500 text-center mt-2">
-            Pergunte sobre horários, paragens, avisos e ordens de serviço
-          </p>
-        </div>
-      </main>
-    </div>
-  )
-}
 
 // Página Pesquisa de Carros
 function PesquisaCarrosPage() {
