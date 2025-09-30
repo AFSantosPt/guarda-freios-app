@@ -4,6 +4,11 @@ import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
 import CarreiraPage from './pages/CarreiraPage';
 import Carreira12EPage from './pages/Carreira12EPage';
+import Carreira15EPage from './pages/Carreira15EPage';
+import Carreira18EPage from './pages/Carreira18EPage';
+import Carreira24EPage from './pages/Carreira24EPage';
+import Carreira25EPage from './pages/Carreira25EPage';
+import Carreira28EPage from './pages/Carreira28EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
@@ -122,11 +127,11 @@ function DashboardPage() {
   const menuItems = [
     { title: 'Ordens de Serviço', onClick: () => navigate('/ordens-servico'), icon: '📋' },
     { title: '12E', onClick: () => navigate('/carreira-12e'), icon: '🚋' },
-    { title: '15E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '18E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '24E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '25E', onClick: () => navigate('/carreira'), icon: '🚋' },
-    { title: '28E', onClick: () => navigate('/carreira'), icon: '🚋' },
+    { title: '15E', onClick: () => navigate('carreira-15e'), icon: '🚋' },
+    { title: '18E', onClick: () => navigate('/carreira-18e'), icon: '🚋' },
+    { title: '24E', onClick: () => navigate('/carreira-24e'), icon: '🚋' },
+    { title: '25E', onClick: () => navigate('/carreira-25e'), icon: '🚋' },
+    { title: '28E', onClick: () => navigate('/carreira-28e'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
     { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' },
     { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' }
@@ -182,13 +187,12 @@ function DashboardPage() {
 
           <nav className="bg-white border-t border-gray-200 px-4 py-2">
         <div className="flex justify-between items-center">
-          {["Início", "Ordens", "Carreiras", "Avarias", "Horários", "Calendário", "Serviços"].map((item, index) => (
+          {["Início", "Ordens", "Avarias", "Horários", "Calendário", "Serviços"].map((item, index) => (
             <button
               key={index}
               onClick={() => {
                 if (item === "Início") navigate("/dashboard");
                 else if (item === "Ordens") navigate("/ordens-servico");
-                else if (item === "Carreiras") navigate("/carreira"); // Pode ser ajustado para uma página de listagem de carreiras
                 else if (item === "Avarias") navigate("/gestao-avarias");
                 else if (item === "Horários") navigate("/gestao-horarios");
                 else if (item === "Calendário") navigate("/calendario");
@@ -199,7 +203,7 @@ function DashboardPage() {
               }`}
             >
               <span className="text-lg mb-1">
-                {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '🚋' : index === 3 ? '⚠️' : index === 4 ? '🕐' : index === 5 ? '📅' : '⚙️'}
+                {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '⚠️' : index === 3 ? '🕐' : index === 4 ? '📅' : '⚙️'}
               </span>
               <span className="text-xs font-medium">{item}</span>
             </button>

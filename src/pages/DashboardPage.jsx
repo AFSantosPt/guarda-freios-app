@@ -29,20 +29,7 @@ export default function DashboardPage() {
       bgColor: 'bg-blue-50 hover:bg-blue-100',
       iconColor: 'text-blue-600'
     },
-    { 
-      title: '28E', 
-      icon: '🚋', 
-      onClick: () => navigate('/carreira'),
-      bgColor: 'bg-yellow-50 hover:bg-yellow-100',
-      iconColor: 'text-yellow-600'
-    },
-    { 
-      title: '15E', 
-      icon: '🚋', 
-      onClick: () => navigate('/carreira'),
-      bgColor: 'bg-green-50 hover:bg-green-100',
-      iconColor: 'text-green-600'
-    },
+    
     { 
       title: 'Avarias', 
       icon: '🔧', 
@@ -69,7 +56,6 @@ export default function DashboardPage() {
   const bottomNavItems = [
     { title: 'Início', icon: '🏠', rota: '/dashboard' },
     { title: 'Ordens', icon: '📋', rota: '/ordens-servico' },
-    { title: 'Carreiras', icon: '🚋', rota: '/carreira' },
     { title: 'Avarias', icon: '⚠️', rota: '/gestao-avarias' },
     { title: 'Agenda', icon: '🗓️', rota: '/consultar-servico' },
     { title: 'Serviços', icon: '⚙️', rota: '/gestao-utilizadores' }
