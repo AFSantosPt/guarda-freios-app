@@ -770,64 +770,6 @@ function ConsultarServicoPage() {
   )
 }
 
-function App() {
-  return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-gray-50">
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/ordens-servico" element={
-              <ProtectedRoute>
-                <OrdensServicoPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/detalhes-ordem" element={
-              <ProtectedRoute>
-                <DetalhesOrdemPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/carreira" element={
-              <ProtectedRoute>
-                <CarreiraPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/chat-carreira" element={
-              <ProtectedRoute>
-                <ChatCarreiraPage />
-              </ProtectedRoute>
-            } />
-           <Route path="/consultar-servico" element={<ConsultarServicoPage />} />
-           <Route path="/calendario" element={<CalendarioPage />} />
-           <Route path="/carreira-12e" element={<Carreira12EPage />} />
-           <Route path="/mudar-password" element={
-             <ProtectedRoute>
-               <MudarPasswordPage />
-             </ProtectedRoute>
-           } />
-          <Route path="/gestao-avarias" element={<GestaoAvariasPage />} />
-          <Route path="/gestao-horarios" element={<GestaoHorariosPage />} />
-            <Route path="/pesquisa-carros" element={
-              <ProtectedRoute>
-                <PesquisaCarrosPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/gestao-utilizadores" element={
-              <ProtectedRoute requireTripulantePlus={true}>
-                <UserManagementPage />
-              </ProtectedRoute>
-            } />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
-  )
-}
 
 export default App
 
