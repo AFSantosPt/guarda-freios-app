@@ -4,6 +4,11 @@ import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
 import Carreira12EPage from './pages/Carreira-12EPage';
+import Carreira15EPage from './pages/Carreira-15EPage';
+import Carreira24EPage from './pages/Carreira-24EPage';
+import Carreira25EPage from './pages/Carreira-25EPage';
+import Carreira18EPage from './pages/Carreira-18EPage';
+import Carreira28EPage from './pages/Carreira-28EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import MudarPasswordPage from './pages/MudarPasswordPage';
 import { useState, createContext, useContext } from 'react'
