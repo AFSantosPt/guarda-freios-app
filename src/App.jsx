@@ -127,12 +127,12 @@ function DashboardPage() {
 
   const menuItems = [
     { title: 'Ordens de Serviço', onClick: () => navigate('/ordens-servico'), icon: '📋' },
-    { title: '12E', onClick: () => navigate('/carreira-12e'), icon: '🚋' },
-    { title: '15E', onClick: () => navigate('/carreira-15e'), icon: '🚋' },
-    { title: '18E', onClick: () => navigate('/carreira-18e'), icon: '🚋' },
-    { title: '24E', onClick: () => navigate('/carreira-24e'), icon: '🚋' },
-    { title: '25E', onClick: () => navigate('/carreira-25e'), icon: '🚋' },
-    { title: '28E', onClick: () => navigate('/carreira-28e'), icon: '🚋' },
+    { title: '12E', onClick: () => navigate('/Carreira-12EPage'), icon: '🚋' },
+    { title: '15E', onClick: () => navigate('/Carreira-15EPage'), icon: '🚋' },
+    { title: '18E', onClick: () => navigate('/Carreira-18EPage'), icon: '🚋' },
+    { title: '24E', onClick: () => navigate('/Carreira-24EPage'), icon: '🚋' },
+    { title: '25E', onClick: () => navigate('/Carreira-25EPage'), icon: '🚋' },
+    { title: '28E', onClick: () => navigate('/Carreira-28EPage'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
     { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' },
     { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' }
