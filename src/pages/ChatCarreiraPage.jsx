@@ -36,32 +36,32 @@ function ChatCarreiraPage() {
       '12E': {
         horario: 'A Carreira 12E funciona das 06:00 às 01:00, com frequência de 6-8 minutos.',
         paragens: 'Paragens principais: Martim Moniz, Socorro, Largo das Portas do Sol, Sé, Chiado e Praça Luís de Camões.',
-        percurso: 'Percurso: Martim Moniz ↔ Praça Luís de Camões'
+        percurso: 'Percurso: Martim Moniz ↔ Praça Luís de Camões',
       },
       '15E': {
         horario: 'A Carreira 15E funciona das 06:30 às 00:30, com frequência de 8-10 minutos.',
         paragens: 'Paragens principais: Praça da Figueira, Cais do Sodré, Santos, Museu Nacional de Arte Antiga, Belém e Algés (Jardim).',
-        percurso: 'Percurso: Praça da Figueira ↔ Algés (Jardim)'
+        percurso: 'Percurso: Praça da Figueira ↔ Algés (Jardim)',
       },
       '18E': {
         horario: 'A Carreira 18E funciona das 07:00 às 22:30, com frequência média de 10 minutos.',
         paragens: 'Paragens principais: Cais do Sodré, Santos, Museu Nacional de Arte Antiga, Palácio Nacional da Ajuda e Cemitério da Ajuda.',
-        percurso: 'Percurso: Cais do Sodré ↔ Cemitério da Ajuda'
+        percurso: 'Percurso: Cais do Sodré ↔ Cemitério da Ajuda',
       },
       '24E': {
         horario: 'A Carreira 24E funciona das 07:00 às 20:30, com circulação reforçada nas horas de ponta.',
         paragens: 'Paragens principais: Campolide, Amoreiras, Largo do Rato, Príncipe Real, Chiado e Praça Luís de Camões.',
-        percurso: 'Percurso: Campolide ↔ Praça Luís de Camões'
+        percurso: 'Percurso: Campolide ↔ Praça Luís de Camões',
       },
       '25E': {
         horario: 'A Carreira 25E funciona das 06:30 às 21:30, com frequência de 10-12 minutos.',
         paragens: 'Paragens principais: Campo de Ourique (Prazeres), Basílica da Estrela, Assembleia da República, Chiado e Campo das Cebolas.',
-        percurso: 'Percurso: Campo de Ourique (Prazeres) ↔ Campo das Cebolas'
+        percurso: 'Percurso: Campo de Ourique (Prazeres) ↔ Campo das Cebolas',
       },
       '28E': {
         paragens: 'Paragens principais: Martim Moniz, Graça, Sé, Chiado, Estrela e Campo de Ourique (Prazeres).',
-        percurso: 'Percurso circular: Martim Moniz → Graça → Baixa → Chiado → Estrela → Campo de Ourique (Prazeres) → Martim Moniz'
-        percurso: 'Percurso circular: Martim Moniz → Campo de Ourique → Prazeres → Estrela → Graça → Martim Moniz'
+        percurso: 'Percurso circular: Martim Moniz → Graça → Baixa → Chiado → Estrela → Campo de Ourique (Prazeres) → Martim Moniz',
+        percurso: 'Percurso circular: Martim Moniz → Campo de Ourique → Prazeres → Estrela → Graça → Martim Moniz',
       }
     };
     return info[carreira] || info['28E'];
