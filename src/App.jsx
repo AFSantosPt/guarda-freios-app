@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
-import Carreira12EPage from './pages/Carreira12EPage';
+import Carreira12EPage from './pages/Carreira-12EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import MudarPasswordPage from './pages/MudarPasswordPage';
 import { useState, createContext, useContext } from 'react'
