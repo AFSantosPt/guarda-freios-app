@@ -14,6 +14,28 @@ import MudarPasswordPage from './pages/MudarPasswordPage.jsx';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
 
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/Carreira-12EPage" element={<Carreira12EPage />} />
+        <Route path="/Carreira-15EPage" element={<Carreira15EPage />} />
+        <Route path="/Carreira-18EPage" element={<Carreira18EPage />} />
+        <Route path="/Carreira-24EPage" element={<Carreira24EPage />} />
+        <Route path="/Carreira-25EPage" element={<Carreira25EPage />} />
+        <Route path="/Carreira-28EPage" element={<Carreira28EPage />} />
+        <Route path="/CalendarioPage" element={<CalendarioPage />} />
+        <Route path="/GestaoAvariasPage" element={<GestaoAvariasPage />} />
+        <Route path="/GestaoHorariosPage" element={<GestaoHorariosPage />} />
+        <Route path="/ChatCarreiraPage" element={<ChatCarreiraPage />} />
+        <Route path="/MudarPasswordPage" element={<MudarPasswordPage />} />
+      </Routes>
+    </Router>
+  );
+}
+
+
 // Context para autenticação
 const AuthContext = createContext()
 
