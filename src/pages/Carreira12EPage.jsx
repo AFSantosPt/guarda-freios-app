@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { carris12EConfig } from '../config/carris';
+import { moovit12EConfig } from '../config/moovit';
 
 // Ícone dos elétricos
 const tramIcon = new L.Icon({
@@ -429,6 +430,31 @@ const Carreira12EPage = () => {
             posições mostradas na lista seguinte.
           </p>
         </div>
+
+        {moovit12EConfig.enabled && moovit12EConfig.embedUrl && (
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="flex items-start justify-between gap-2 mb-4">
+              <h2 className="text-lg font-bold text-gray-800">{moovit12EConfig.title}</h2>
+              <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-700">
+                Moovit
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+              Widget oficial do Moovit com horários, alertas e tempo real disponibilizados pela comunidade.
+            </p>
+            <div className="relative w-full" style={{ paddingBottom: '65%' }}>
+              <iframe
+                title={moovit12EConfig.iframeTitle}
+                src={moovit12EConfig.embedUrl}
+                className="absolute left-0 top-0 h-full w-full rounded-lg border border-gray-200"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                lang={moovit12EConfig.language}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Lista de Paragens */}
         <div className="bg-white rounded-lg shadow-md p-6">
