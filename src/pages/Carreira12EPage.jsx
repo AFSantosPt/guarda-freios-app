@@ -45,9 +45,9 @@ const Carreira12EPage = () => {
     const fetchDados = async () => {
       try {
         // Substituir pela API real da Carris quando disponível
-        // const response = await fetch("https://api.carris.pt/realtime/12E");
-        // const data = await response.json();
-        // setVeiculos(data.vehicles);
+        const response = await fetch("https://api.carris.pt/realtime/12E");
+        const data = await response.json();
+        setVeiculos(data.vehicles);
 
         // Simulação provisória
         setVeiculos([
