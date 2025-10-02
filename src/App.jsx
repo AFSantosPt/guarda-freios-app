@@ -1,4 +1,5 @@
 import React from 'react'
+import "leaflet/dist/leaflet.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
