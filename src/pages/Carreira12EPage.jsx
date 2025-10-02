@@ -1,12 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import MapaCarreira from '../components/MapaCarreira';
 
 const Carreira12EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   
-  const paragens = carreiraParagens['12E'];
+  // Dados fixos das paragens da Carreira 12E
+  const paragens = [
+    'Martim Moniz',
+    'Socorro',
+    'Lg. Terreirinho',
+    'R. Lagares',
+    'S. Tomé',
+    'Lg. Portas Sol',
+    'Sta. Luzia',
+    'Limoeiro',
+    'Sé',
+    'R. Conceição',
+    'Lg. Academia Nac. Belas Artes',
+    'R. Serpa Pinto',
+    'Chiado',
+    'Pç. Luís Camões'
+  ];
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
@@ -102,6 +119,9 @@ const Carreira12EPage = () => {
       </header>
 
       <main className="p-4 space-y-6">
+        {/* Mapa da Carreira */}
+        <MapaCarreira carreira="12E" veiculos={veiculos} />
+        
         {/* Percurso */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-bold text-gray-800 mb-4">Percurso</h2>

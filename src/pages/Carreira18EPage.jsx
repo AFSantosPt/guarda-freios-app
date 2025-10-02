@@ -1,27 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
-import { carreiraParagens } from '../lib/carreiraParagens';
 
-const Carreira28EPage = () => {
+const Carreira18EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
-  const paragens = carreiraParagens['28E'];
   
-
+  // Dados fixos das paragens da Carreira 18E
+  const paragens = [
+    'Ajuda',
+    'Calvário',
+    'Estrela',
+    'S. Bento',
+    'Calhariz',
+    'Camões',
+    'Chiado',
+    'Baixa',
+    'Martim Moniz',
+    'Graça',
+    'Senhora do Monte'
+  ];
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
-    { chapa: "14", sentido: "Camoes", posicao: 2, confirmado: true },
-    { chapa: "7", sentido: "Moniz", posicao: 6, confirmado: false },
-    { chapa: "1", sentido: "Moniz", posicao: 10, confirmado: true }
+    { chapa: "5", sentido: "Monte", posicao: 2, confirmado: true },
+    { chapa: "9", sentido: "Ajuda", posicao: 7, confirmado: false },
+    { chapa: "15", sentido: "Monte", posicao: 9, confirmado: true }
   ]);
 
   // Estado para observações
   const [observacoes, setObservacoes] = useState([
-    { autor: "180939", msg: "Interrupção no Limoeiro sentido Camões", hora: "14:41 27/09" },
-    { autor: "180001", msg: "Caminho livre", hora: "14:42 27/09" }
+    { autor: "180939", msg: "Obras na Calhariz - trânsito condicionado", hora: "13:20 01/10" },
+    { autor: "180001", msg: "Situação normalizada", hora: "14:10 01/10" }
   ]);
 
   const [novaObservacao, setNovaObservacao] = useState('');
@@ -76,10 +86,10 @@ const Carreira28EPage = () => {
             key={`${veiculo.chapa}-${index}`}
             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
               veiculo.confirmado
-                ? veiculo.sentido === 'Camoes'
+                ? veiculo.sentido === 'Monte'
                   ? 'bg-blue-500 text-white'
                   : 'bg-red-500 text-white'
-                : veiculo.sentido === 'Camoes'
+                : veiculo.sentido === 'Monte'
                   ? 'border-2 border-blue-500 bg-transparent text-blue-500'
                   : 'border-2 border-red-500 bg-transparent text-red-500'
             }`}
@@ -101,7 +111,7 @@ const Carreira28EPage = () => {
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Carreira 28E</h1>
+        <h1 className="text-xl font-bold text-gray-900">Carreira 18E</h1>
       </header>
 
       <main className="p-4 space-y-6">
@@ -148,11 +158,11 @@ const Carreira28EPage = () => {
             <div className="flex flex-wrap gap-4 text-xs">
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                <span>🔵 Sentido Camões (Confirmado)</span>
+                <span>🔵 Sentido Senhora do Monte (Confirmado)</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-                <span>🔴 Sentido Martim Moniz (Confirmado)</span>
+                <span>🔴 Sentido Ajuda (Confirmado)</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 border-2 border-blue-500 rounded-full mr-2"></div>
@@ -212,19 +222,19 @@ const Carreira28EPage = () => {
 
         {/* Chat AI */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 28E</h2>
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 18E</h2>
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-blue-800 mb-2">
-              🤖 Olá! Sou o assistente da Carreira 28E. Posso ajudar com:
+              🤖 Olá! Sou o assistente da Carreira 18E. Posso ajudar com:
             </p>
             <ul className="text-xs text-blue-700 space-y-1">
-              <li>• Horários e frequências da 28E</li>
+              <li>• Horários e frequências da 18E</li>
               <li>• Estado das paragens</li>
               <li>• Interrupções de serviço</li>
               <li>• Informações sobre esta carreira</li>
             </ul>
             <button
-              onClick={() => navigate('/chat-carreira?carreira=28E')}
+              onClick={() => navigate('/chat-carreira?carreira=18E')}
               className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
             >
               Iniciar Chat
@@ -236,5 +246,4 @@ const Carreira28EPage = () => {
   );
 };
 
-export default Carreira28EPage;
-
+export default Carreira18EPage;

@@ -1,25 +1,42 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
-import { carreiraParagens } from '../lib/carreiraParagens';
 
-const Carreira25EPage = () => {
+const Carreira28EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   
-  const paragens = carreiraParagens['25E'];
+  // Dados fixos das paragens da Carreira 28E (percurso circular)
+  const paragens = [
+    'Martim Moniz',
+    'Graça',
+    'S. Vicente',
+    'Sta. Clara',
+    'Voz Operário',
+    'Estrela',
+    'Pç. Luís Camões',
+    'Chiado',
+    'Baixa',
+    'Sé',
+    'Alfama',
+    'Portas do Sol',
+    'Sta. Luzia',
+    'Lg. Portas Sol',
+    'S. Tomé'
+  ];
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
-    { chapa: "14", sentido: "Camoes", posicao: 2, confirmado: true },
-    { chapa: "7", sentido: "Moniz", posicao: 6, confirmado: false },
-    { chapa: "1", sentido: "Moniz", posicao: 10, confirmado: true }
+    { chapa: "5", sentido: "Circular", posicao: 3, confirmado: true },
+    { chapa: "8", sentido: "Circular", posicao: 7, confirmado: false },
+    { chapa: "12", sentido: "Circular", posicao: 11, confirmado: true },
+    { chapa: "15", sentido: "Circular", posicao: 14, confirmado: true }
   ]);
 
   // Estado para observações
   const [observacoes, setObservacoes] = useState([
-    { autor: "180939", msg: "Interrupção no Limoeiro sentido Camões", hora: "14:41 27/09" },
-    { autor: "180001", msg: "Caminho livre", hora: "14:42 27/09" }
+    { autor: "180939", msg: "Percurso circular a decorrer sem problemas", hora: "15:10 01/10" },
+    { autor: "180001", msg: "Muito movimento turístico em Alfama", hora: "15:25 01/10" }
   ]);
 
   const [novaObservacao, setNovaObservacao] = useState('');
@@ -74,12 +91,8 @@ const Carreira25EPage = () => {
             key={`${veiculo.chapa}-${index}`}
             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
               veiculo.confirmado
-                ? veiculo.sentido === 'Camoes'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-red-500 text-white'
-                : veiculo.sentido === 'Camoes'
-                  ? 'border-2 border-blue-500 bg-transparent text-blue-500'
-                  : 'border-2 border-red-500 bg-transparent text-red-500'
+                ? 'bg-yellow-500 text-white'
+                : 'border-2 border-yellow-500 bg-transparent text-yellow-600'
             }`}
           >
             {veiculo.confirmado ? veiculo.chapa : ''}
@@ -99,13 +112,13 @@ const Carreira25EPage = () => {
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Carreira 25E</h1>
+        <h1 className="text-xl font-bold text-gray-900">Carreira 28E</h1>
       </header>
 
       <main className="p-4 space-y-6">
         {/* Percurso */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Percurso</h2>
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Percurso Circular</h2>
           <div className="relative">
             {/* Linha central */}
             <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
@@ -114,7 +127,7 @@ const Carreira25EPage = () => {
             <div className="space-y-4">
               {paragens.map((paragem, index) => {
                 const veiculosNaParagem = getVeiculosNaParagem(index);
-                const isTerminal = index === 0 || index === paragens.length - 1;
+                const isTerminal = index === 0;
                 
                 return (
                   <div key={index} className="flex items-center">
@@ -145,18 +158,17 @@ const Carreira25EPage = () => {
             <h3 className="text-sm font-semibold text-gray-700 mb-2">Legenda:</h3>
             <div className="flex flex-wrap gap-4 text-xs">
               <div className="flex items-center">
-                <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                <span>🔵 Sentido Camões (Confirmado)</span>
+                <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
+                <span>🟡 Sentido Circular (Confirmado)</span>
               </div>
               <div className="flex items-center">
-                <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-                <span>🔴 Sentido Martim Moniz (Confirmado)</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-4 h-4 border-2 border-blue-500 rounded-full mr-2"></div>
+                <div className="w-4 h-4 border-2 border-yellow-500 rounded-full mr-2"></div>
                 <span>⚪ Não Confirmado</span>
               </div>
             </div>
+            <p className="text-xs text-gray-600 mt-3">
+              ℹ️ A 28E é uma linha circular que parte e regressa a Martim Moniz
+            </p>
           </div>
         </div>
 
@@ -210,19 +222,19 @@ const Carreira25EPage = () => {
 
         {/* Chat AI */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 25E</h2>
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 28E</h2>
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-blue-800 mb-2">
-              🤖 Olá! Sou o assistente da Carreira 25E. Posso ajudar com:
+              🤖 Olá! Sou o assistente da Carreira 28E. Posso ajudar com:
             </p>
             <ul className="text-xs text-blue-700 space-y-1">
-              <li>• Horários e frequências da 25E</li>
+              <li>• Horários e frequências da 28E</li>
               <li>• Estado das paragens</li>
               <li>• Interrupções de serviço</li>
               <li>• Informações sobre esta carreira</li>
             </ul>
             <button
-              onClick={() => navigate('/chat-carreira?carreira=12E')}
+              onClick={() => navigate('/chat-carreira?carreira=28E')}
               className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
             >
               Iniciar Chat
@@ -234,5 +246,4 @@ const Carreira25EPage = () => {
   );
 };
 
-export default Carreira25EPage;
-
+export default Carreira28EPage;
