@@ -1,40 +1,18 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import GestaoAvariasPage from './pages/GestaoAvariasPage.jsx';
-import GestaoHorariosPage from './pages/GestaoHorariosPage.jsx';
-import CalendarioPage from './pages/CalendarioPage.jsx';
-import Carreira12EPage from './pages/Carreira-12EPage.jsx';
-import Carreira15EPage from './pages/Carreira-15EPage.jsx';
-import Carreira24EPage from './pages/Carreira-24EPage.jsx';
-import Carreira25EPage from './pages/Carreira-25EPage.jsx';
-import Carreira18EPage from './pages/Carreira-18EPage.jsx';
-import Carreira28EPage from './pages/Carreira-28EPage.jsx';
-import ChatCarreiraPage from './pages/ChatCarreiraPage.jsx';
-import MudarPasswordPage from './pages/MudarPasswordPage.jsx';
+import GestaoAvariasPage from './pages/GestaoAvariasPage';
+import GestaoHorariosPage from './pages/GestaoHorariosPage';
+import CalendarioPage from './pages/CalendarioPage';
+import Carreira12EPage from './pages/Carreira12EPage';
+import Carreira15EPage from './pages/Carreira15EPage';
+import Carreira18EPage from './pages/Carreira18EPage';
+import Carreira24EPage from './pages/Carreira24EPage';
+import Carreira25EPage from './pages/Carreira25EPage';
+import Carreira28EPage from './pages/Carreira28EPage';
+import ChatCarreiraPage from './pages/ChatCarreiraPage';
+import MudarPasswordPage from './pages/MudarPasswordPage';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/Carreira-12EPage" element={<Carreira12EPage />} />
-        <Route path="/Carreira-15EPage" element={<Carreira15EPage />} />
-        <Route path="/Carreira-18EPage" element={<Carreira18EPage />} />
-        <Route path="/Carreira-24EPage" element={<Carreira24EPage />} />
-        <Route path="/Carreira-25EPage" element={<Carreira25EPage />} />
-        <Route path="/Carreira-28EPage" element={<Carreira28EPage />} />
-        <Route path="/CalendarioPage" element={<CalendarioPage />} />
-        <Route path="/GestaoAvariasPage" element={<GestaoAvariasPage />} />
-        <Route path="/GestaoHorariosPage" element={<GestaoHorariosPage />} />
-        <Route path="/ChatCarreiraPage" element={<ChatCarreiraPage />} />
-        <Route path="/MudarPasswordPage" element={<MudarPasswordPage />} />
-      </Routes>
-    </Router>
-  );
-}
-
 
 // Context para autenticação
 const AuthContext = createContext()
@@ -149,12 +127,12 @@ function DashboardPage() {
 
   const menuItems = [
     { title: 'Ordens de Serviço', onClick: () => navigate('/ordens-servico'), icon: '📋' },
-    { title: '12E', onClick: () => navigate('/Carreira-12EPage'), icon: '🚋' },
-    { title: '15E', onClick: () => navigate('/Carreira-15EPage'), icon: '🚋' },
-    { title: '18E', onClick: () => navigate('/Carreira-18EPage'), icon: '🚋' },
-    { title: '24E', onClick: () => navigate('/Carreira-24EPage'), icon: '🚋' },
-    { title: '25E', onClick: () => navigate('/Carreira-25EPage'), icon: '🚋' },
-    { title: '28E', onClick: () => navigate('/Carreira-28EPage'), icon: '🚋' },
+    { title: '12E', onClick: () => navigate('/carreira-12e'), icon: '🚋' },
+    { title: '15E', onClick: () => navigate('/carreira-15e'), icon: '🚋' },
+    { title: '18E', onClick: () => navigate('/carreira-18e'), icon: '🚋' },
+    { title: '24E', onClick: () => navigate('/carreira-24e'), icon: '🚋' },
+    { title: '25E', onClick: () => navigate('/carreira-25e'), icon: '🚋' },
+    { title: '28E', onClick: () => navigate('/carreira-28e'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
     { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' },
     { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' }
@@ -770,6 +748,69 @@ function ConsultarServicoPage() {
   )
 }
 
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/ordens-servico" element={
+              <ProtectedRoute>
+                <OrdensServicoPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/detalhes-ordem" element={
+              <ProtectedRoute>
+                <DetalhesOrdemPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/carreira" element={
+              <ProtectedRoute>
+                <CarreiraPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/chat-carreira" element={
+              <ProtectedRoute>
+                <ChatCarreiraPage />
+              </ProtectedRoute>
+            } />
+           <Route path="/consultar-servico" element={<ConsultarServicoPage />} />
+           <Route path="/calendario" element={<CalendarioPage />} />
+           <Route path="/carreira-12e" element={<Carreira12EPage />} />
+           <Route path="/carreira-15e" element={<Carreira15EPage />} />
+           <Route path="/carreira-18e" element={<Carreira18EPage />} />
+           <Route path="/carreira-24e" element={<Carreira24EPage />} />
+           <Route path="/carreira-25e" element={<Carreira25EPage />} />
+           <Route path="/carreira-28e" element={<Carreira28EPage />} />
+           <Route path="/mudar-password" element={
+             <ProtectedRoute>
+               <MudarPasswordPage />
+             </ProtectedRoute>
+           } />
+          <Route path="/gestao-avarias" element={<GestaoAvariasPage />} />
+          <Route path="/gestao-horarios" element={<GestaoHorariosPage />} />
+            <Route path="/pesquisa-carros" element={
+              <ProtectedRoute>
+                <PesquisaCarrosPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/gestao-utilizadores" element={
+              <ProtectedRoute requireTripulantePlus={true}>
+                <UserManagementPage />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  )
+}
 
 export default App
 
