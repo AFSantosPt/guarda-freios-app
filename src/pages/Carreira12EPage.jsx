@@ -49,6 +49,18 @@ const Carreira12EPage = () => {
   // Observações
   const [observacoes, setObservacoes] = useState([]);
   const [novaObservacao, setNovaObservacao] = useState('');
+  const [moovitEstado, setMoovitEstado] = useState('pendente');
+
+  const moovitEmbedAtivo = Boolean(moovit12EConfig.enabled && moovit12EConfig.embedUrl);
+  const moovitFalhou = moovitEstado === 'erro';
+
+  const handleMoovitLoad = useCallback(() => {
+    setMoovitEstado('sucesso');
+  }, []);
+
+  const handleMoovitErro = useCallback(() => {
+    setMoovitEstado('erro');
+  }, []);
 
   const obterIndiceParagemMaisProxima = useCallback(
     (lat, lng) => {
@@ -304,6 +316,22 @@ const Carreira12EPage = () => {
     return () => clearInterval(interval);
   }, [atualizarVeiculos]);
 
+  useEffect(() => {
+    if (!moovitEmbedAtivo) {
+      return undefined;
+    }
+
+    setMoovitEstado('pendente');
+
+    const timeoutId = setTimeout(() => {
+      setMoovitEstado((estadoAtual) =>
+        estadoAtual === 'pendente' ? 'erro' : estadoAtual
+      );
+    }, 10000);
+
+    return () => clearTimeout(timeoutId);
+  }, [moovitEmbedAtivo]);
+
   // Adicionar observações
   const handleAdicionarObservacao = () => {
     if (novaObservacao.trim()) {
@@ -431,7 +459,7 @@ const Carreira12EPage = () => {
           </p>
         </div>
 
-        {moovit12EConfig.enabled && moovit12EConfig.embedUrl && (
+        {moovitEmbedAtivo && (
           <div className="bg-white rounded-lg shadow-md p-4">
             <div className="flex items-start justify-between gap-2 mb-4">
               <h2 className="text-lg font-bold text-gray-800">{moovit12EConfig.title}</h2>
@@ -451,8 +479,30 @@ const Carreira12EPage = () => {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
                 lang={moovit12EConfig.language}
+                sandbox={moovit12EConfig.sandbox}
+                allow={moovit12EConfig.allow}
+                onLoad={handleMoovitLoad}
+                onError={handleMoovitErro}
               />
             </div>
+            <p className="mt-3 text-xs text-gray-500">
+              Se o widget não ficar visível ao fim de alguns segundos, podes abri-lo directamente no{' '}
+              <a
+                href={moovit12EConfig.fallbackUrl || moovit12EConfig.embedUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="font-medium text-purple-700 underline-offset-2 hover:underline"
+              >
+                site da Moovit
+              </a>
+              .
+            </p>
+            {moovitFalhou && (
+              <div className="mt-3 rounded-lg border border-dashed border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                <p className="font-semibold">Não foi possível carregar o widget dentro da aplicação.</p>
+                <p className="mt-1">Utiliza a ligação acima para veres a informação mais actualizada.</p>
+              </div>
+            )}
           </div>
         )}
 
