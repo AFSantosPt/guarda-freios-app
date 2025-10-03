@@ -1,17 +1,54 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { AuthContext } from '../App'
 
 export default function LoginPage() {
   const [funcionario, setFuncionario] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
 
-  const handleLogin = (e) => {
+  // Base de dados simulada de utilizadores
+  const usuarios = {
+    '18001': { password: '123456', nome: 'João Silva', cargo: 'Gestor' },
+    '18002': { password: '123456', nome: 'Maria Santos', cargo: 'Tripulante' },
+    '180939': { password: '123456', nome: 'Pedro Costa', cargo: 'Tripulante' }
+  }
+
+  const handleLogin = async (e) => {
     e.preventDefault()
-    // Simular login e navegar para o dashboard
+    setError('')
+    setLoading(true)
+
+    // Simular delay de rede
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    // Validar credenciais
+    const usuario = usuarios[funcionario]
+    
+    if (!usuario) {
+      setError('Número de funcionário não encontrado')
+      setLoading(false)
+      return
+    }
+
+    if (usuario.password !== password) {
+      setError('Password incorreta')
+      setLoading(false)
+      return
+    }
+
+    // Login bem-sucedido
+    const userData = {
+      numero: funcionario,
+      nome: usuario.nome,
+      cargo: usuario.cargo
+    }
+
+    login(userData)
+    setLoading(false)
     navigate('/dashboard')
   }
 
@@ -30,45 +67,65 @@ export default function LoginPage() {
           <p className="text-gray-600">Entrar na sua conta</p>
         </div>
 
+        {/* Mensagem de erro */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
         {/* Form */}
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <Label htmlFor="funcionario" className="text-gray-700 font-medium">
+            <label htmlFor="funcionario" className="block text-gray-700 font-medium mb-2">
               N.º de Funcionário
-            </Label>
-            <Input
+            </label>
+            <input
               id="funcionario"
               type="text"
               placeholder="ex: 180xxx"
               value={funcionario}
               onChange={(e) => setFuncionario(e.target.value)}
-              className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
           </div>
 
           <div>
-            <Label htmlFor="password" className="text-gray-700 font-medium">
+            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
               Password
-            </Label>
-            <Input
+            </label>
+            <input
               id="password"
               type="password"
               placeholder="••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
           </div>
 
-          <Button
+          <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+            disabled={loading}
+            className={`w-full font-semibold py-3 px-4 rounded-lg transition-colors duration-200 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-yellow-500 hover:bg-yellow-600 text-black'
+            }`}
           >
-            Entrar
-          </Button>
+            {loading ? 'A entrar...' : 'Entrar'}
+          </button>
         </form>
+
+        {/* Informação de teste */}
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+          <p className="text-xs text-blue-800 font-semibold mb-2">Credenciais de teste:</p>
+          <p className="text-xs text-blue-700">Funcionário: 18001 | Password: 123456 (Gestor)</p>
+          <p className="text-xs text-blue-700">Funcionário: 18002 | Password: 123456 (Tripulante)</p>
+        </div>
       </div>
     </div>
   )
 }
-
