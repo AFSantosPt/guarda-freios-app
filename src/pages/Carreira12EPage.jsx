@@ -1,355 +1,247 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Fix para ícones do Leaflet
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
 
 const Carreira12EPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
   
-  // Dados das paragens da Carreira 12E com coordenadas GPS reais
+  // Dados fixos das paragens da Carreira 12E
   const paragens = [
-    { nome: 'Martim Moniz', lat: 38.71565, lng: -9.13602, ordem: 1 },
-    { nome: 'Socorro', lat: 38.71398, lng: -9.13245, ordem: 2 },
-    { nome: 'Lg. Terreirinho', lat: 38.71345, lng: -9.13145, ordem: 3 },
-    { nome: 'R. Lagares', lat: 38.71298, lng: -9.13042, ordem: 4 },
-    { nome: 'S. Tomé', lat: 38.71245, lng: -9.12945, ordem: 5 },
-    { nome: 'Lg. Portas Sol', lat: 38.71198, lng: -9.12845, ordem: 6 },
-    { nome: 'Sta. Luzia', lat: 38.71145, lng: -9.12742, ordem: 7 },
-    { nome: 'Limoeiro', lat: 38.71098, lng: -9.12645, ordem: 8 },
-    { nome: 'Sé', lat: 38.71045, lng: -9.13345, ordem: 9 },
-    { nome: 'R. Conceição', lat: 38.70998, lng: -9.13545, ordem: 10 },
-    { nome: 'Lg. Academia Nac. Belas Artes', lat: 38.70945, lng: -9.13745, ordem: 11 },
-    { nome: 'R. Serpa Pinto', lat: 38.70898, lng: -9.13945, ordem: 12 },
-    { nome: 'Chiado', lat: 38.71098, lng: -9.14145, ordem: 13 },
-    { nome: 'Pç. Luís Camões', lat: 38.71045, lng: -9.14345, ordem: 14 }
+    'Martim Moniz',
+    'Socorro',
+    'Lg. Terreirinho',
+    'R. Lagares',
+    'S. Tomé',
+    'Lg. Portas Sol',
+    'Sta. Luzia',
+    'Limoeiro',
+    'Sé',
+    'R. Conceição',
+    'Lg. Academia Nac. Belas Artes',
+    'R. Serpa Pinto',
+    'Chiado',
+    'Pç. Luís Camões'
   ];
 
   // Estado para veículos em tempo real
   const [veiculos, setVeiculos] = useState([
     { chapa: "14", sentido: "Camoes", posicao: 2, confirmado: true },
     { chapa: "7", sentido: "Moniz", posicao: 6, confirmado: false },
-    { chapa: "1", sentido: "Camoes", posicao: 11, confirmado: true }
+    { chapa: "1", sentido: "Moniz", posicao: 10, confirmado: true }
   ]);
 
   // Estado para observações
   const [observacoes, setObservacoes] = useState([
-    { texto: "Interrupção no Limoeiro sentido Camões", hora: "14:41 27/09", autor: "180939" },
-    { texto: "Caminho livre", hora: "14:42 27/09", autor: "180001" }
+    { autor: "180939", msg: "Interrupção no Limoeiro sentido Camões", hora: "14:41 27/09" },
+    { autor: "180001", msg: "Caminho livre", hora: "14:42 27/09" }
   ]);
 
   const [novaObservacao, setNovaObservacao] = useState('');
-  const [mostrarMapa, setMostrarMapa] = useState(true);
 
-  // Inicializar mapa Leaflet
-  useEffect(() => {
-    if (!mapRef.current || mapInstanceRef.current) return;
-
-    // Criar mapa centrado em Lisboa
-    const map = L.map(mapRef.current).setView([38.71298, -9.13345], 14);
-
-    // Adicionar tiles do OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    // Desenhar percurso da linha 12E
-    const routeCoordinates = paragens.map(p => [p.lat, p.lng]);
-    const routeLine = L.polyline(routeCoordinates, {
-      color: '#2563EB',
-      weight: 4,
-      opacity: 0.7
-    }).addTo(map);
-
-    // Adicionar marcadores para paragens
-    paragens.forEach((paragem, index) => {
-      const isTerminal = index === 0 || index === paragens.length - 1;
-      
-      const marker = L.circleMarker([paragem.lat, paragem.lng], {
-        radius: isTerminal ? 8 : 6,
-        fillColor: isTerminal ? '#9333EA' : '#6B7280',
-        color: '#fff',
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.8
-      }).addTo(map);
-
-      marker.bindPopup(`
-        <div style="font-family: sans-serif;">
-          <strong>${paragem.nome}</strong><br/>
-          <span style="font-size: 12px; color: #666;">
-            ${isTerminal ? 'Terminal' : 'Paragem'} ${paragem.ordem}
-          </span>
-        </div>
-      `);
-    });
-
-    // Adicionar marcadores para veículos
-    veiculos.forEach(veiculo => {
-      if (veiculo.posicao >= 0 && veiculo.posicao < paragens.length) {
-        const paragem = paragens[veiculo.posicao];
-        const cor = veiculo.sentido === 'Camoes' ? '#2563EB' : '#DC2626';
-        
-        const veiculoMarker = L.marker([paragem.lat, paragem.lng], {
-          icon: L.divIcon({
-            className: 'custom-div-icon',
-            html: `
-              <div style="
-                background-color: ${cor};
-                color: white;
-                border-radius: 50%;
-                width: 32px;
-                height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 14px;
-                border: 3px solid white;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-              ">
-                ${veiculo.confirmado ? veiculo.chapa : '?'}
-              </div>
-            `,
-            iconSize: [32, 32],
-            iconAnchor: [16, 16]
-          })
-        }).addTo(map);
-
-        veiculoMarker.bindPopup(`
-          <div style="font-family: sans-serif;">
-            <strong>Elétrico ${veiculo.chapa}</strong><br/>
-            <span style="font-size: 12px;">
-              Sentido: ${veiculo.sentido === 'Camoes' ? 'Pç. Luís Camões' : 'Martim Moniz'}<br/>
-              Paragem: ${paragem.nome}<br/>
-              Status: ${veiculo.confirmado ? '✓ Confirmado' : '⚠ Não confirmado'}
-            </span>
-          </div>
-        `);
-      }
-    });
-
-    // Ajustar zoom para mostrar todo o percurso
-    map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
-
-    mapInstanceRef.current = map;
-
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, []);
-
-  // Atualizar posições dos veículos periodicamente
+  // Simular atualização de dados em tempo real
   useEffect(() => {
     const interval = setInterval(() => {
+      // Simular movimento dos elétricos (opcional)
       setVeiculos(prevVeiculos => 
-        prevVeiculos.map(veiculo => {
-          const novaPosicao = veiculo.sentido === 'Camoes' 
-            ? (veiculo.posicao + 1) % paragens.length
-            : (veiculo.posicao - 1 + paragens.length) % paragens.length;
-          
-          return {
-            ...veiculo,
-            posicao: novaPosicao,
-            confirmado: Math.random() > 0.3 // 70% de chance de ser confirmado
-          };
-        })
+        prevVeiculos.map(veiculo => ({
+          ...veiculo,
+          // Pequena chance de mudança de posição para simular movimento
+          posicao: Math.random() > 0.9 ? 
+            Math.max(0, Math.min(paragens.length - 1, veiculo.posicao + (Math.random() > 0.5 ? 1 : -1))) : 
+            veiculo.posicao
+        }))
       );
     }, 10000); // Atualizar a cada 10 segundos
 
     return () => clearInterval(interval);
   }, []);
 
-  const adicionarObservacao = () => {
+  const handleAdicionarObservacao = () => {
     if (novaObservacao.trim()) {
       const agora = new Date();
-      const hora = `${agora.getHours()}:${agora.getMinutes().toString().padStart(2, '0')} ${agora.getDate()}/${agora.getMonth() + 1}`;
+      const hora = `${agora.getHours().toString().padStart(2, '0')}:${agora.getMinutes().toString().padStart(2, '0')} ${agora.getDate().toString().padStart(2, '0')}/${(agora.getMonth() + 1).toString().padStart(2, '0')}`;
       
-      setObservacoes([
-        { texto: novaObservacao, hora, autor: user?.numero || '180001' },
-        ...observacoes
-      ]);
+      const novaObs = {
+        autor: user?.numero || 'Anónimo',
+        msg: novaObservacao,
+        hora: hora
+      };
+
+      setObservacoes([...observacoes, novaObs]);
       setNovaObservacao('');
     }
+  };
+
+  // Função para obter veículos numa paragem específica
+  const getVeiculosNaParagem = (index) => {
+    return veiculos.filter(veiculo => veiculo.posicao === index);
+  };
+
+  // Função para renderizar círculos dos elétricos
+  const renderVeiculosCirculos = (veiculosNaParagem) => {
+    if (veiculosNaParagem.length === 0) return null;
+
+    return (
+      <div className="flex space-x-1 ml-4">
+        {veiculosNaParagem.map((veiculo, index) => (
+          <div
+            key={`${veiculo.chapa}-${index}`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+              veiculo.confirmado
+                ? veiculo.sentido === 'Camoes'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-red-500 text-white'
+                : veiculo.sentido === 'Camoes'
+                  ? 'border-2 border-blue-500 bg-transparent text-blue-500'
+                  : 'border-2 border-red-500 bg-transparent text-red-500'
+            }`}
+          >
+            {veiculo.confirmado ? veiculo.chapa : ''}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Cabeçalho */}
-      <header className="bg-white shadow-sm px-4 py-4 flex items-center sticky top-0 z-50">
+      <header className="bg-white shadow-sm px-4 py-4 flex items-center">
         <button 
           onClick={() => navigate('/dashboard')}
-          className="mr-4 p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+          className="mr-4 p-2 text-blue-600"
         >
           ←
         </button>
         <h1 className="text-xl font-bold text-gray-900">Carreira 12E</h1>
-        <span className="ml-auto text-sm text-gray-600">
-          Martim Moniz ↔ Pç. Luís Camões
-        </span>
       </header>
 
       <main className="p-4 space-y-6">
-        {/* Mapa Interativo */}
-        {mostrarMapa && (
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="p-4 bg-blue-50 border-b border-blue-100">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-bold text-gray-800">Mapa em Tempo Real</h2>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {veiculos.length} elétricos ativos • Atualização automática
-                  </p>
-                </div>
-                <button
-                  onClick={() => setMostrarMapa(false)}
-                  className="text-sm text-blue-600 hover:text-blue-800"
-                >
-                  Ocultar
-                </button>
-              </div>
-            </div>
-            <div 
-              ref={mapRef} 
-              style={{ height: '400px', width: '100%' }}
-              className="leaflet-container"
-            />
-            <div className="p-4 bg-gray-50 border-t border-gray-200">
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-blue-600"></div>
-                  <span>Sentido Camões</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-red-600"></div>
-                  <span>Sentido Moniz</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-purple-600"></div>
-                  <span>Terminal</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {!mostrarMapa && (
-          <div className="bg-blue-50 rounded-lg p-4">
-            <button
-              onClick={() => setMostrarMapa(true)}
-              className="text-blue-600 hover:text-blue-800 font-medium"
-            >
-              🗺️ Mostrar Mapa Interativo
-            </button>
-          </div>
-        )}
-
-        {/* Lista de Paragens */}
+        {/* Percurso */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Percurso Completo</h2>
-          <div className="space-y-2">
-            {paragens.map((paragem, index) => {
-              const veiculosNaParagem = veiculos.filter(v => v.posicao === index);
-              const isTerminal = index === 0 || index === paragens.length - 1;
-              
-              return (
-                <div key={index} className="flex items-center gap-3">
-                  <div className={`w-3 h-3 rounded-full ${isTerminal ? 'bg-purple-600' : 'bg-gray-400'}`}></div>
-                  <div className="flex-1">
-                    <span className={`${isTerminal ? 'font-bold' : ''}`}>{paragem.nome}</span>
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Percurso</h2>
+          <div className="relative">
+            {/* Linha central */}
+            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+            
+            {/* Paragens */}
+            <div className="space-y-4">
+              {paragens.map((paragem, index) => {
+                const veiculosNaParagem = getVeiculosNaParagem(index);
+                const isTerminal = index === 0 || index === paragens.length - 1;
+                
+                return (
+                  <div key={index} className="flex items-center">
+                    {/* Ponto da paragem */}
+                    <div className={`w-3 h-3 rounded-full z-10 ${
+                      isTerminal ? 'bg-purple-500' : 'bg-gray-400'
+                    }`}></div>
+                    
+                    {/* Nome da paragem */}
+                    <div className="ml-4 flex-1">
+                      <span className={`text-sm font-medium ${
+                        isTerminal ? 'text-purple-600' : 'text-gray-700'
+                      }`}>
+                        {paragem}
+                      </span>
+                    </div>
+                    
+                    {/* Círculos dos elétricos */}
+                    {renderVeiculosCirculos(veiculosNaParagem)}
                   </div>
-                  <div className="flex gap-2">
-                    {veiculosNaParagem.map((veiculo, vIdx) => (
-                      <div
-                        key={vIdx}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                          veiculo.sentido === 'Camoes' ? 'bg-blue-600' : 'bg-red-600'
-                        } ${!veiculo.confirmado ? 'opacity-50' : ''}`}
-                      >
-                        {veiculo.confirmado ? veiculo.chapa : '?'}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </div>
+          
+          {/* Legenda */}
+          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-sm font-semibold text-gray-700 mb-2">Legenda:</h3>
+            <div className="flex flex-wrap gap-4 text-xs">
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                <span>🔵 Sentido Camões (Confirmado)</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                <span>🔴 Sentido Martim Moniz (Confirmado)</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 border-2 border-blue-500 rounded-full mr-2"></div>
+                <span>⚪ Não Confirmado</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Observações Partilhadas */}
+        {/* Observações */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-bold text-gray-800 mb-4">Observações Partilhadas</h2>
           
-          <div className="space-y-3 mb-4">
-            {observacoes.map((obs, index) => (
-              <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                <p className="text-gray-800">{obs.texto}</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {obs.hora} | {obs.autor}
-                </p>
-              </div>
-            ))}
+          {/* Lista de observações */}
+          <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
+            {observacoes.length === 0 ? (
+              <p className="text-gray-500 text-sm">Nenhuma observação registada.</p>
+            ) : (
+              observacoes.map((obs, index) => (
+                <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-800">{obs.msg}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {obs.hora} | {obs.autor}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={novaObservacao}
-              onChange={(e) => setNovaObservacao(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && adicionarObservacao()}
-              placeholder="Adicionar observação..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button
-              onClick={adicionarObservacao}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
-            >
-              ➕
-            </button>
+          
+          {/* Adicionar nova observação */}
+          <div className="border-t pt-4">
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={novaObservacao}
+                onChange={(e) => setNovaObservacao(e.target.value)}
+                placeholder="Adicionar observação..."
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                onKeyPress={(e) => e.key === 'Enter' && handleAdicionarObservacao()}
+              />
+              <button
+                onClick={handleAdicionarObservacao}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+              >
+                ➕
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              As observações são apagadas automaticamente todos os dias às 3h da manhã.
+            </p>
           </div>
-
-          <p className="text-xs text-gray-500 mt-2">
-            As observações são apagadas automaticamente todos os dias às 3h da manhã.
-          </p>
         </div>
 
         {/* Chat AI */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
-          <div className="flex items-start gap-4">
-            <div className="text-4xl">🤖</div>
-            <div className="flex-1">
-              <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 12E</h2>
-              <p className="text-sm text-gray-600 mb-3">
-                Olá! Sou o assistente da Carreira 12E. Posso ajudar com:
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1 mb-4">
-                <li>• Horários e frequências da 12E</li>
-                <li>• Estado das paragens</li>
-                <li>• Interrupções de serviço</li>
-                <li>• Informações sobre esta carreira</li>
-              </ul>
-              <button
-                onClick={() => navigate('/chat-carreira?carreira=12E')}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
-              >
-                Iniciar Chat
-              </button>
-            </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Chat AI - Carreira 12E</h2>
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <p className="text-sm text-blue-800 mb-2">
+              🤖 Olá! Sou o assistente da Carreira 12E. Posso ajudar com:
+            </p>
+            <ul className="text-xs text-blue-700 space-y-1">
+              <li>• Horários e frequências da 12E</li>
+              <li>• Estado das paragens</li>
+              <li>• Interrupções de serviço</li>
+              <li>• Informações sobre esta carreira</li>
+            </ul>
+            <button
+              onClick={() => navigate('/chat-carreira?carreira=12E')}
+              className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+            >
+              Iniciar Chat
+            </button>
           </div>
         </div>
       </main>

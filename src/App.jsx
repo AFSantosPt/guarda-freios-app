@@ -222,6 +222,35 @@ function DashboardPage() {
   )
 }
 
+const iniciarPartilhaGPS = () => {
+  watchIdRef.current = navigator.geolocation.watchPosition(
+    (position) => {
+      const novaLocalizacao = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        timestamp: new Date()
+      };
+      
+      setMinhaLocalizacao(novaLocalizacao);
+      
+      // TODO: Enviar para backend
+      // API.post('/api/gps/update', { ...novaLocalizacao, carreira: '12E' })
+    },
+    (error) => {
+      setErroGPS("Erro ao obter localização: " + error.message);
+      setPartilharGPS(false);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    }
+  );
+};
+
+
+
 // Página Ordens de Serviço
 function OrdensServicoPage() {
   const navigate = useNavigate()
