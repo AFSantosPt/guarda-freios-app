@@ -1,6 +1,7 @@
 import React from 'react'
 import "leaflet/dist/leaflet.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import LoginPage from './pages/LoginPage';
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
@@ -34,14 +35,13 @@ const useAuth = () => {
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
 
-  const login = (numeroFuncionario) => {
-    // Simular verificação de tipo de utilizador
-    // Em uma aplicação real, isso viria de uma API
-    let userType = 'Tripulante'
-    if (numeroFuncionario === '18001' || numeroFuncionario === '180939') {
-      userType = 'Gestor'
-    }
-    setUser({ numero: numeroFuncionario, tipo: userType })
+  const login = (userData) => {
+    // userData deve conter: { numero, nome, cargo }
+    setUser({
+      numero: userData.numero,
+      nome: userData.nome,
+      tipo: userData.cargo // Mapear cargo para tipo
+    })
   }
 
   const logout = () => {
@@ -52,72 +52,6 @@ function AuthProvider({ children }) {
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
-
-// Página de Login
-function LoginPage() {
-  const navigate = useNavigate()
-  const { login } = useAuth()
-  const [funcionario, setFuncionario] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleLogin = (e) => {
-    e.preventDefault()
-    login(funcionario)
-    navigate('/dashboard')
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex">
-              <div className="w-8 h-8 rounded-full bg-yellow-500 mr-1"></div>
-              <div className="w-8 h-8 rounded-full bg-gray-600"></div>
-            </div>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Guarda-Freios</h1>
-          <p className="text-gray-600">Entrar na sua conta</p>
-        </div>
-
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              N.º de Funcionário
-            </label>
-            <input
-              type="text"
-              placeholder="ex: 180xxx"
-              value={funcionario}
-              onChange={(e) => setFuncionario(e.target.value)}
-              className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
-          >
-            Entrar
-          </button>
-        </form>
-      </div>
-    </div>
   )
 }
 
