@@ -14,7 +14,7 @@ export default function LoginPage() {
   const usuarios = {
     '18001': { password: '123456', nome: 'João Silva', cargo: 'Gestor' },
     '18002': { password: '123456', nome: 'Maria Santos', cargo: 'Tripulante' },
-    '180939': { password: '123456', nome: 'Pedro Costa', cargo: 'Tripulante' }
+    '180939': { password: 'andres91', nome: 'André Santos', cargo: 'Gestor' }
   }
 
   const handleLogin = async (e) => {
