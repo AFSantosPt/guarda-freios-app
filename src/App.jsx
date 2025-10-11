@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import RegistoPage from './pages/RegistoPage';
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
+import GestaoUtilizadoresPage from './pages/GestaoUtilizadoresPage';
 import CalendarioPage from './pages/CalendarioPage';
 import Carreira12EPage from './pages/Carreira12EPage';
 import Carreira15EPage from './pages/Carreira15EPage';
@@ -768,7 +769,7 @@ function App() {
             } />
             <Route path="/gestao-utilizadores" element={
               <ProtectedRoute requireTripulantePlus={true}>
-                <UserManagementPage />
+                <GestaoUtilizadoresPage />
               </ProtectedRoute>
             } />
           </Routes>

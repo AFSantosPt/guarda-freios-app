@@ -114,10 +114,38 @@ export const healthCheck = async () => {
   return apiRequest('/health');
 };
 
+// ============================================
+// GESTÃO DE UTILIZADORES
+// ============================================
+
+export const getUsers = async () => {
+  return apiRequest('/api/auth/users');
+};
+
+export const updateUser = async (id, nome, email, cargo, password = null) => {
+  const body = { nome, email, cargo };
+  if (password) {
+    body.password = password;
+  }
+  return apiRequest(`/api/auth/users/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+};
+
+export const deleteUser = async (id) => {
+  return apiRequest(`/api/auth/users/${id}`, {
+    method: 'DELETE',
+  });
+};
+
 export default {
   login,
   register,
   changePassword,
+  getUsers,
+  updateUser,
+  deleteUser,
   updateGPS,
   getGPSByCarreira,
   stopGPS,
