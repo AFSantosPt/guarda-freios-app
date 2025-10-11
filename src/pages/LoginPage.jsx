@@ -119,8 +119,21 @@ export default function LoginPage() {
           </button>
         </form>
 
+        {/* Link para registo */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Não tem conta?{' '}
+            <button
+              onClick={() => navigate('/registo')}
+              className="text-yellow-600 hover:text-yellow-700 font-semibold underline"
+            >
+              Criar conta
+            </button>
+          </p>
+        </div>
+
         {/* Informação de teste */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
           <p className="text-xs text-blue-800 font-semibold mb-2">Credenciais de teste:</p>
           <p className="text-xs text-blue-700">Funcionário: 18001 | Password: 123456 (Gestor)</p>
           <p className="text-xs text-blue-700">Funcionário: 18002 | Password: 123456 (Tripulante)</p>

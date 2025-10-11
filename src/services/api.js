@@ -39,6 +39,13 @@ export const login = async (numero, password) => {
   });
 };
 
+export const register = async (numero, nome, email, cargo, password) => {
+  return apiRequest('/api/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ numero, nome, email, cargo, password }),
+  });
+};
+
 export const changePassword = async (numero, currentPassword, newPassword) => {
   return apiRequest('/api/auth/change-password', {
     method: 'POST',
@@ -109,6 +116,7 @@ export const healthCheck = async () => {
 
 export default {
   login,
+  register,
   changePassword,
   updateGPS,
   getGPSByCarreira,

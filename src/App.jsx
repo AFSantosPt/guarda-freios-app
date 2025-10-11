@@ -2,6 +2,7 @@ import React from 'react'
 import "leaflet/dist/leaflet.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage';
+import RegistoPage from './pages/RegistoPage';
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
@@ -719,6 +720,7 @@ function App() {
         <div className="min-h-screen bg-gray-50">
           <Routes>
             <Route path="/" element={<LoginPage />} />
+            <Route path="/registo" element={<RegistoPage />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <DashboardPage />
