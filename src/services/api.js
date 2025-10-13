@@ -139,6 +139,31 @@ export const deleteUser = async (id) => {
   });
 };
 
+// ============================================
+// SERVIÇOS
+// ============================================
+
+export const getServicos = async (tripulanteId, mes, ano) => {
+  return apiRequest(`/api/servicos?tripulante_id=${tripulanteId}&mes=${mes}&ano=${ano}`);
+};
+
+export const getAutoPreenchimento = async (tripulanteId, numeroServico) => {
+  return apiRequest(`/api/servicos/auto-preenchimento?tripulante_id=${tripulanteId}&numero_servico=${numeroServico}`);
+};
+
+export const createServico = async (data) => {
+  return apiRequest('/api/servicos', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+};
+
+export const deleteServico = async (servicoId, tripulanteId) => {
+  return apiRequest(`/api/servicos/${servicoId}?tripulante_id=${tripulanteId}`, {
+    method: 'DELETE',
+  });
+};
+
 export default {
   login,
   register,
@@ -146,6 +171,10 @@ export default {
   getUsers,
   updateUser,
   deleteUser,
+  getServicos,
+  getAutoPreenchimento,
+  createServico,
+  deleteServico,
   updateGPS,
   getGPSByCarreira,
   stopGPS,

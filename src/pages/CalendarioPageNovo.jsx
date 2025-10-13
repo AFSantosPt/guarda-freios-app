@@ -34,37 +34,10 @@ const CalendarioPage = () => {
       const mes = currentMonth.getMonth() + 1;
       const ano = currentMonth.getFullYear();
       
-      const response = await api.getServicos(user.id, mes, ano);
+      // TODO: Implementar chamada à API
+      // const response = await api.getServicos(user.id, mes, ano);
+      // Organizar serviços por data
       
-      if (response.success) {
-        // Organizar serviços por data
-        const servicosPorData = {};
-        response.servicos.forEach(servico => {
-          const dataKey = servico.data;
-          if (!servicosPorData[dataKey]) {
-            servicosPorData[dataKey] = [];
-          }
-          
-          // Extrair dados das observações
-          const obs = servico.observacoes || '';
-          const numeroMatch = obs.match(/Serviço: ([^\|]+)/);
-          const chapaMatch = obs.match(/Chapa: ([^\|]+)/);
-          const afetacaoMatch = obs.match(/Afetação: (.+)/);
-          
-          servicosPorData[dataKey].push({
-            id: servico.id,
-            numero_servico: numeroMatch ? numeroMatch[1].trim() : '',
-            local_inicio: servico.local_inicio,
-            local_fim: servico.local_fim,
-            hora_inicio: servico.hora_inicio,
-            hora_fim: servico.hora_fim,
-            numero_chapa: chapaMatch ? chapaMatch[1].trim() : '',
-            afetacao: afetacaoMatch ? afetacaoMatch[1].trim() : 'Normal'
-          });
-        });
-        
-        setServices(servicosPorData);
-      }
     } catch (err) {
       console.error('Erro ao carregar serviços:', err);
     }
@@ -77,15 +50,15 @@ const CalendarioPage = () => {
 
     if (numero.length >= 3 && user) {
       try {
-        const response = await api.getAutoPreenchimento(user.id, numero);
-        if (response.auto_preenchimento) {
-          setFormData({
-            ...formData,
-            numero_servico: numero,
-            ...response.dados
-          });
-          setSuccess('Auto-preenchimento aplicado! Pode editar os campos se necessário.');
-        }
+        // TODO: Implementar chamada à API de auto-preenchimento
+        // const response = await api.getAutoPreenchimento(user.id, numero);
+        // if (response.auto_preenchimento) {
+        //   setFormData({
+        //     ...formData,
+        //     numero_servico: numero,
+        //     ...response.dados
+        //   });
+        // }
       } catch (err) {
         console.error('Erro ao buscar auto-preenchimento:', err);
       }
@@ -149,26 +122,25 @@ const CalendarioPage = () => {
     setLoading(true);
 
     try {
-      const response = await api.createServico({
-        tripulante_id: user.id,
-        data: selectedDate,
-        ...formData
-      });
+      // TODO: Implementar chamada à API
+      // const response = await api.createServico({
+      //   tripulante_id: user.id,
+      //   data: selectedDate,
+      //   ...formData
+      // });
 
-      if (response.success) {
-        setSuccess('Serviço adicionado com sucesso!');
-        setShowAddService(false);
-        setFormData({
-          numero_servico: '',
-          local_inicio: '',
-          local_fim: '',
-          hora_inicio: '',
-          hora_fim: '',
-          numero_chapa: '',
-          afetacao: 'Normal'
-        });
-        loadServicos();
-      }
+      setSuccess('Serviço adicionado com sucesso!');
+      setShowAddService(false);
+      setFormData({
+        numero_servico: '',
+        local_inicio: '',
+        local_fim: '',
+        hora_inicio: '',
+        hora_fim: '',
+        numero_chapa: '',
+        afetacao: 'Normal'
+      });
+      loadServicos();
     } catch (err) {
       setError(err.message || 'Erro ao adicionar serviço');
     } finally {
@@ -182,12 +154,10 @@ const CalendarioPage = () => {
     }
 
     try {
-      const response = await api.deleteServico(servicoId, user.id);
-      
-      if (response.success) {
-        setSuccess('Serviço excluído com sucesso!');
-        loadServicos();
-      }
+      // TODO: Implementar chamada à API
+      // await api.deleteServico(servicoId, user.id);
+      setSuccess('Serviço excluído com sucesso!');
+      loadServicos();
     } catch (err) {
       setError(err.message || 'Erro ao excluir serviço');
     }
