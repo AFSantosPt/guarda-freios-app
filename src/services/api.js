@@ -181,5 +181,31 @@ export default {
   createCheckin,
   getCheckinsByCarreira,
   healthCheck,
+  getOrdens,
+  createOrdem,
+  deleteOrdem,
+};
+
+
+
+// ============================================
+// ORDENS DE SERVIÇO
+// ============================================
+
+export const getOrdens = async () => {
+  return apiRequest('/api/ordens');
+};
+
+export const createOrdem = async (data) => {
+  return apiRequest('/api/ordens', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+};
+
+export const deleteOrdem = async (ordemId, userId) => {
+  return apiRequest(`/api/ordens/${ordemId}?user_id=${userId}`, {
+    method: 'DELETE',
+  });
 };
 
