@@ -1,4 +1,4 @@
-
+import React from 'react'
 import "leaflet/dist/leaflet.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
@@ -780,9 +780,65 @@ function ConsultarServicoPage() {
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <h1>Aplica&ccedil;&atilde;o a funcionar!</h1>
-    </div>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/ordens-servico" element={
+              <ProtectedRoute>
+                <OrdensServicoPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/detalhes-ordem" element={
+              <ProtectedRoute>
+                <DetalhesOrdemPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/carreira" element={
+              <ProtectedRoute>
+                <CarreiraPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/chat-carreira" element={
+              <ProtectedRoute>
+                <ChatCarreiraPage />
+              </ProtectedRoute>
+            } />
+           <Route path="/consultar-servico" element={<ConsultarServicoPage />} />
+           <Route path="/calendario" element={<CalendarioPage />} />
+           <Route path="/carreira-12e" element={<Carreira12EPage />} />
+           <Route path="/carreira-15e" element={<Carreira15EPage />} />
+           <Route path="/carreira-18e" element={<Carreira18EPage />} />
+           <Route path="/carreira-24e" element={<Carreira24EPage />} />
+           <Route path="/carreira-25e" element={<Carreira25EPage />} />
+           <Route path="/carreira-28e" element={<Carreira28EPage />} />
+           <Route path="/mudar-password" element={
+             <ProtectedRoute>
+               <MudarPasswordPage />
+             </ProtectedRoute>
+           } />
+          <Route path="/gestao-avarias" element={<GestaoAvariasPage />} />
+          <Route path="/gestao-horarios" element={<GestaoHorariosPage />} />
+            <Route path="/pesquisa-carros" element={
+              <ProtectedRoute>
+                <PesquisaCarrosPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/gestao-utilizadores" element={
+              <ProtectedRoute requireTripulantePlus={true}>
+                <UserManagementPage />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   )
 }
 
