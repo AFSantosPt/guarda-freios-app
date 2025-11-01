@@ -610,6 +610,71 @@ const Carreira12EPage = () => {
         {/* Chat AI */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 12E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Martim Moniz → Pç. Luís Camões
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Martim Moniz</li>
+                <li>2. Socorro</li>
+                <li>3. Lg. Terreirinho</li>
+                <li>4. R. Lagares</li>
+                <li>5. S. Tomé</li>
+                <li>6. Lg. Portas Sol</li>
+                <li>7. Miradouro Sta. Luzia</li>
+                <li>8. Limoeiro</li>
+                <li>9. Sé</li>
+                <li>10. R. Conceição</li>
+                <li>11. Lg. Academia Nacional Belas Artes</li>
+                <li>12. R. Vítor Cordon / R. Serpa Pinto</li>
+                <li>13. Chiado</li>
+                <li>14. Pç. Luís Camões (B. Alto)</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Pç. Luís Camões → Martim Moniz
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Pç. Luís Camões (B. Alto)</li>
+                <li>2. Chiado</li>
+                <li>3. R. Vítor Cordon</li>
+                <li>4. R. Vítor Cordon / R. Serpa Pinto</li>
+                <li>5. Lg. Academia Nacional Belas Artes</li>
+                <li>6. R. Conceição</li>
+                <li>7. Igreja Sta. Maria Madalena</li>
+                <li>8. Sé</li>
+                <li>9. Limoeiro</li>
+                <li>10. Miradouro Sta. Luzia</li>
+                <li>11. Lg. Portas Sol</li>
+                <li>12. R. Escolas Gerais</li>
+                <li>13. Cç. S. Vicente</li>
+                <li>14. Voz Operário</li>
+                <li>15. Graça</li>
+                <li>16. R. Graça</li>
+                <li>17. Sapadores</li>
+                <li>18. R. Angelina Vidal</li>
+                <li>19. R. Forno Tijolo</li>
+                <li>20. R. Maria</li>
+                <li>21. R. Maria Andrade</li>
+                <li>22. Igreja Anjos</li>
+                <li>23. R. Palma</li>
+                <li>24. Martim Moniz</li>
+              </ol>
+            </div>
+          </div>
+        </div>
             <div className="text-4xl">🤖</div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 12E</h2>

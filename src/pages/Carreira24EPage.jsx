@@ -616,6 +616,55 @@ const Carreira24EPage = () => {
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 24E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Pç. Luís Camões → Campolide
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Pç. Luís Camões (B. Alto)</li>
+                <li>2. Lg. Trindade Coelho</li>
+                <li>3. Ascensor Glória</li>
+                <li>4. Príncipe Real</li>
+                <li>5. R. Escola Politécnica</li>
+                <li>6. Rato</li>
+                <li>7. Jardim Amoreiras</li>
+                <li>8. R. Amoreiras</li>
+                <li>9. Av. Cons. Fernando Sousa</li>
+                <li>10. Campolide (Av. Cons. Fernando Sousa)</li>
+                <li>11. Campolide</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Campolide → Pç. Luís Camões
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Campolide</li>
+                <li>2. Amoreiras</li>
+                <li>3. R. Amoreiras</li>
+                <li>4. Jardim Amoreiras</li>
+                <li>5. Rato</li>
+                <li>6. R. Escola Politécnica</li>
+                <li>7. Príncipe Real</li>
+                <li>8. S. Pedro de Alcântara</li>
+                <li>9. Ascensor Glória</li>
+                <li>10. Lg. Trindade Coelho</li>
+                <li>11. Pç. Luís Camões (B. Alto)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
             <div className="text-4xl">🤖</div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 24E</h2>

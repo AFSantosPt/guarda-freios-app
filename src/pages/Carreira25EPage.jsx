@@ -604,6 +604,71 @@ const Carreira25EPage = () => {
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 25E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Pç. Figueira → Campo Ourique (Prazeres)
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Pç. Figueira</li>
+                <li>2. Pç. Comércio</li>
+                <li>3. Corpo Santo</li>
+                <li>4. Cais Sodré</li>
+                <li>5. Conde Barão – Av. 24 Julho</li>
+                <li>6. Santos</li>
+                <li>7. Santos-o-Velho</li>
+                <li>8. R. S. João Mata</li>
+                <li>9. R. Garcia Orta</li>
+                <li>10. R. S. Domingos à Lapa</li>
+                <li>11. R. Santana à Lapa</li>
+                <li>12. R. Buenos Aires</li>
+                <li>13. Estrela (Basílica)</li>
+                <li>14. Estrela – R. Domingos Sequeira</li>
+                <li>15. R. Domingos Sequeira</li>
+                <li>16. R. Saraiva Carvalho</li>
+                <li>17. Igreja Sto. Condestável (C. Ourique)</li>
+                <li>18. Campo Ourique (Prazeres)</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Campo Ourique (Prazeres) → Pç. Figueira
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Campo Ourique (Prazeres)</li>
+                <li>2. Igreja Sto. Condestável (C. Ourique)</li>
+                <li>3. R. Saraiva Carvalho</li>
+                <li>4. R. Domingos Sequeira</li>
+                <li>5. Estrela – R. Domingos Sequeira</li>
+                <li>6. Estrela (Basílica)</li>
+                <li>7. R. João Deus</li>
+                <li>8. R. Buenos Aires</li>
+                <li>9. R. Santana à Lapa</li>
+                <li>10. R. S. Domingos à Lapa</li>
+                <li>11. R. Garcia Orta</li>
+                <li>12. R. S. João Mata</li>
+                <li>13. Santos-o-Velho</li>
+                <li>14. Santos</li>
+                <li>15. Conde Barão – Av. 24 Julho</li>
+                <li>16. Cais Sodré</li>
+                <li>17. Corpo Santo</li>
+                <li>18. Pç. Comércio</li>
+                <li>19. R. Prata</li>
+                <li>20. Pç. Figueira</li>
+              </ol>
+            </div>
+          </div>
+        </div>
             <div className="text-4xl">🤖</div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 25E</h2>

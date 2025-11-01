@@ -616,6 +616,74 @@ const Carreira18EPage = () => {
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 18E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Cais Sodré → Cemitério da Ajuda
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Cais Sodré</li>
+                <li>2. Conde Barão – Av. 24 Julho</li>
+                <li>3. Santos</li>
+                <li>4. Cais Rocha (Museu Nac. Arte Antiga)</li>
+                <li>5. Av. Infante Santo</li>
+                <li>6. Alcântara – Av. 24 Julho</li>
+                <li>7. Calvário</li>
+                <li>8. Cç. Tapada</li>
+                <li>9. Pavilhão Desportivo Ajuda</li>
+                <li>10. R. João Barros</li>
+                <li>11. Alto Sto. Amaro</li>
+                <li>12. R. Aliança Operária</li>
+                <li>13. Rio Seco</li>
+                <li>14. Cç. Boa Hora</li>
+                <li>15. Boa Hora</li>
+                <li>16. R. D. Vasco</li>
+                <li>17. R. Bica Marquês</li>
+                <li>18. Cç. Ajuda (GNR)</li>
+                <li>19. Palácio Nacional Ajuda</li>
+                <li>20. R. Açucenas</li>
+                <li>21. Cemitério Ajuda</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Cemitério da Ajuda → Cais Sodré
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Cemitério Ajuda</li>
+                <li>2. R. Açucenas</li>
+                <li>3. Palácio Nacional Ajuda</li>
+                <li>4. Cç. Ajuda (GNR)</li>
+                <li>5. R. Bica Marquês</li>
+                <li>6. R. D. Vasco</li>
+                <li>7. Boa Hora</li>
+                <li>8. Cç. Boa Hora</li>
+                <li>9. Rio Seco</li>
+                <li>10. Alto Sto. Amaro</li>
+                <li>11. R. João Barros</li>
+                <li>12. Pavilhão Desportivo Ajuda</li>
+                <li>13. Cç. Tapada</li>
+                <li>14. Calvário</li>
+                <li>15. Alcântara – Av. 24 Julho</li>
+                <li>16. Av. Infante Santo</li>
+                <li>17. Cais Rocha (Museu Nac. Arte Antiga)</li>
+                <li>18. Santos</li>
+                <li>19. Conde Barão – Av. 24 Julho</li>
+                <li>20. Cais Sodré</li>
+              </ol>
+            </div>
+          </div>
+        </div>
             <div className="text-4xl">🤖</div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 18E</h2>

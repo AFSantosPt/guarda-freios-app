@@ -645,6 +645,104 @@ const Carreira28EPage = () => {
           </p>
         </div>
 
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 28E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Martim Moniz → Campo Ourique (Prazeres)
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Martim Moniz</li>
+                <li>2. R. Palma</li>
+                <li>3. Igreja Anjos</li>
+                <li>4. R. Maria Andrade</li>
+                <li>5. R. Maria Fonte</li>
+                <li>6. R. Angelina Vidal</li>
+                <li>7. Sapadores</li>
+                <li>8. R. Graça</li>
+                <li>9. Graça</li>
+                <li>10. Voz Operário</li>
+                <li>11. Cç. S. Vicente</li>
+                <li>12. R. Escolas Gerais</li>
+                <li>13. Lg. Portas Sol</li>
+                <li>14. Miradouro Sta. Luzia</li>
+                <li>15. Limoeiro</li>
+                <li>16. Sé</li>
+                <li>17. R. Conceição</li>
+                <li>18. Lg. Academia Nacional Belas Artes</li>
+                <li>19. R. Vítor Cordon / R. Serpa Pinto</li>
+                <li>20. Chiado</li>
+                <li>21. Pç. Luís Camões (B. Alto)</li>
+                <li>22. Calhariz (Bica)</li>
+                <li>23. Sta. Catarina</li>
+                <li>24. Cç. Combro</li>
+                <li>25. R. Poiais S. Bento</li>
+                <li>26. R. S. Bento / Cç. Estrela</li>
+                <li>27. Cç. Estrela / R. Borges Carneiro</li>
+                <li>28. Cç. Estrela / R. Dr. Teófilo Braga</li>
+                <li>29. Estrela (Basílica)</li>
+                <li>30. Estrela – R. Domingos Sequeira</li>
+                <li>31. R. Domingos Sequeira</li>
+                <li>32. R. Saraiva Carvalho</li>
+                <li>33. Igreja Sto. Condestável (C. Ourique)</li>
+                <li>34. Campo Ourique (Prazeres)</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Campo Ourique (Prazeres) → Martim Moniz
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Campo Ourique (Prazeres)</li>
+                <li>2. Igreja Sto. Condestável (C. Ourique)</li>
+                <li>3. R. Saraiva Carvalho</li>
+                <li>4. R. Domingos Sequeira</li>
+                <li>5. Estrela – R. Domingos Sequeira</li>
+                <li>6. Estrela (Basílica)</li>
+                <li>7. Cç. Estrela / R. Dr. Teófilo Braga</li>
+                <li>8. Cç. Estrela</li>
+                <li>9. R. S. Bento / Cç. Estrela</li>
+                <li>10. R. Poço dos Negros</li>
+                <li>11. Cç. Combro</li>
+                <li>12. Calhariz (Bica)</li>
+                <li>13. Pç. Luís Camões (B. Alto)</li>
+                <li>14. Chiado</li>
+                <li>15. R. Vítor Cordon</li>
+                <li>16. R. Vítor Cordon / R. Serpa Pinto</li>
+                <li>17. Lg. Academia Nacional Belas Artes</li>
+                <li>18. R. Conceição</li>
+                <li>19. Igreja Sta. Maria Madalena</li>
+                <li>20. Sé</li>
+                <li>21. Limoeiro</li>
+                <li>22. Miradouro Sta. Luzia</li>
+                <li>23. Lg. Portas Sol</li>
+                <li>24. R. Escolas Gerais</li>
+                <li>25. Cç. S. Vicente</li>
+                <li>26. Voz Operário</li>
+                <li>27. Graça</li>
+                <li>28. R. Graça</li>
+                <li>29. Sapadores</li>
+                <li>30. R. Angelina Vidal</li>
+                <li>31. R. Forno do Tijolo</li>
+                <li>32. R. Maria</li>
+                <li>33. R. Maria Andrade</li>
+                <li>34. Igreja Anjos</li>
+                <li>35. R. Palma</li>
+                <li>36. Martim Moniz</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
             <div className="text-4xl">🤖</div>

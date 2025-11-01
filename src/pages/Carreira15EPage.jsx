@@ -611,6 +611,80 @@ const Carreira15EPage = () => {
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-md p-6">
           <div className="flex items-start gap-4">
+
+        {/* Seção de Paragens */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span>🚏</span> Paragens da Carreira 15E
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sentido Ida */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                → Pç. Figueira → Algés (Jardim)
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Pç. Figueira</li>
+                <li>2. Pç. Comércio</li>
+                <li>3. Corpo Santo</li>
+                <li>4. Cais Sodré</li>
+                <li>5. Conde Barão – Av. 24 Julho</li>
+                <li>6. Santos</li>
+                <li>7. Cais Rocha (Museu Nac. Arte Antiga)</li>
+                <li>8. Av. Infante Santo</li>
+                <li>9. Alcântara – Av. 24 Julho</li>
+                <li>10. Calvário</li>
+                <li>11. Estação Sto. Amaro</li>
+                <li>12. R. Junqueira (Centro Congressos)</li>
+                <li>13. Hosp. Egas Moniz</li>
+                <li>14. R. Pinto Ferreira</li>
+                <li>15. Altinho (MAAT)</li>
+                <li>16. Belém (Museu dos Coches)</li>
+                <li>17. Mosteiro dos Jerónimos</li>
+                <li>18. Centro Cultural de Belém</li>
+                <li>19. Lg. Princesa</li>
+                <li>20. Pedrouços</li>
+                <li>21. R. Damião de Góis</li>
+                <li>22. Algés – Pç. D. Manuel I</li>
+                <li>23. Algés (Jardim)</li>
+              </ol>
+            </div>
+
+            {/* Sentido Volta */}
+            <div>
+              <h3 className="font-semibold text-gray-700 mb-3 pb-2 border-b border-gray-200">
+                ← Algés (Jardim) → Pç. Figueira
+              </h3>
+              <ol className="text-sm text-gray-600 space-y-1">
+                <li>1. Algés (Jardim)</li>
+                <li>2. Algés – Pç. D. Manuel I</li>
+                <li>3. R. Damião de Góis</li>
+                <li>4. Pedrouços</li>
+                <li>5. Lg. Princesa</li>
+                <li>6. Centro Cultural de Belém</li>
+                <li>7. Mosteiro dos Jerónimos</li>
+                <li>8. Belém (Museu Coches)</li>
+                <li>9. Altinho (MAAT)</li>
+                <li>10. R. Pinto Ferreira</li>
+                <li>11. Hosp. Egas Moniz</li>
+                <li>12. R. Junqueira (Centro Congressos)</li>
+                <li>13. Estação Sto. Amaro</li>
+                <li>14. Calvário</li>
+                <li>15. Alcântara – Av. 24 Julho</li>
+                <li>16. Av. Infante Santo</li>
+                <li>17. Cais Rocha (Museu Nac. Arte Antiga)</li>
+                <li>18. Santos</li>
+                <li>19. Conde Barão – Av. 24 Julho</li>
+                <li>20. Cais Sodré</li>
+                <li>21. Corpo Santo</li>
+                <li>22. Pç. Comércio</li>
+                <li>23. R. Prata (só descida)</li>
+                <li>24. Pç. Figueira</li>
+              </ol>
+            </div>
+          </div>
+        </div>
             <div className="text-4xl">🤖</div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-800 mb-2">Chat AI - Carreira 15E</h2>
