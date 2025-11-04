@@ -1,12 +1,36 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import axios from 'axios';
+import { MapPin, Clock, Info, CheckCircle } from 'lucide-react';
 
-function GestaoHorariosPage() {
+function CarreiraPage() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadMessage, setUploadMessage] = useState('');
+  const [trajeto, setTrajeto] = useState(null);
+  const [loadingTrajeto, setLoadingTrajeto] = useState(false);
+  const [erroTrajeto, setErroTrajeto] = useState(null);
+
+  const carreira = '28E'; // Exemplo de carreira
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+  const fetchTrajeto = async () => {
+    setLoadingTrajeto(true);
+    setErroTrajeto(null);
+    try {
+      const response = await axios.get(`${API_URL}/api/trajetos/atualizar/${carreira}`);
+      setTrajeto(response.data.trajeto);
+    } catch (error) {
+      console.error('Erro ao buscar trajeto:', error);
+      setErroTrajeto('Erro ao carregar trajeto. Tente novamente.');
+    } finally {
+      setLoadingTrajeto(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrajeto();
+  }, []);
 
   const isTripulantePlus = user && user.tipo === 'Gestor';
 
@@ -34,69 +58,73 @@ function GestaoHorariosPage() {
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Gestão de Horários</h1>
+        <h1 className="text-xl font-bold text-gray-900">Carreira 28E/5 (Exemplo)</h1>
       </header>
 
       <main className="p-4">
-        {/* Seção de Visualização de Horários */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Visualização de Horários</h2>
-          <p className="text-gray-700 mb-4">Aqui pode consultar os horários disponíveis em formato TXT ou PDF.</p>
-          <div className="space-y-3">
-            <a 
-              href="/horario_28E.pdf" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-md text-center transition-colors duration-200"
-            >
-              Download Horário Carreira 28E (PDF)
-            </a>
-            <a 
-              href="/horario_15E.txt" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-md text-center transition-colors duration-200"
-            >
-              Download Horário Carreira 15E (TXT)
-            </a>
-          </div>
+        {/* 6️⃣ FUNCIONALIDADE DE CHECK-IN DE RENDIÇÕES */}
+        <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-col items-center">
+          <h2 className="text-lg font-bold text-gray-800 mb-3">Rendição</h2>
+          <p className="text-sm text-gray-600 mb-4 text-center">
+            Ao aproximar-se do ponto de rendição, clique no botão para notificar o seu colega.
+          </p>
+          <button
+            onClick={() => alert('Notificação de rendição enviada! (Simulação)')}
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-colors duration-200 flex items-center gap-2"
+          >
+            <CheckCircle className="w-5 h-5" /> Cheguei ao ponto X
+          </button>
         </div>
 
-        {/* Seção de Upload de Horários (Apenas para Gestor) */}
-        {isTripulantePlus && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Upload de Novos Horários</h2>
-            <p className="text-gray-700 mb-4">Gestor e Admin podem carregar ficheiros (PDF, imagem) para atualização de horários. O sistema usará OCR para converter imagens em texto pesquisável (simulado).</p>
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="horario-file" className="block text-sm font-medium text-gray-700">Selecionar Ficheiro</label>
-                <input
-                  type="file"
-                  id="horario-file"
-                  onChange={handleFileChange}
-                  className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                />
-              </div>
-              <button
-                onClick={handleUpload}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-              >
-                Carregar Horário
-              </button>
-              {uploadMessage && (
-                <p className="mt-3 text-sm text-center 
-                  {uploadMessage.includes('sucesso') ? 'text-green-600' : 'text-red-600'}"
-                >
-                  {uploadMessage}
-                </p>
-              )}
-            </div>
+        {/* 5️⃣ INTEGRAÇÃO COM MAPAS E LOCALIZAÇÃO */}
+        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-blue-600" /> Localização em Tempo Real
+          </h2>
+          <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 mb-4">
+            {/* Simulação de Mapa */}
+            Mapa da Carreira 28E (Integração com TRANSITLAND ou similar)
           </div>
-        )}
+          <p className="text-sm text-gray-600 flex items-center gap-1">
+            <Info className="w-4 h-4 text-blue-500" />
+            Última atualização: {new Date().toLocaleTimeString()}
+          </p>
+        </div>
+
+        {/* 7️⃣ ATUALIZAÇÃO AUTOMÁTICA DOS TRAJETOS (Carris) */}
+        <div className="bg-white rounded-lg shadow-md p-4">
+          <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-yellow-600" /> Trajeto e Paragens
+          </h2>
+          {loadingTrajeto ? (
+            <p className="text-center text-gray-500">A carregar trajeto...</p>
+          ) : erroTrajeto ? (
+            <p className="text-center text-red-500">{erroTrajeto}</p>
+          ) : trajeto ? (
+            <div className="space-y-3">
+              <p className="text-sm font-medium">{trajeto.descricao}</p>
+              <p className="text-xs text-gray-500">Atualizado em: {new Date(trajeto.ultimaAtualizacao).toLocaleString()}</p>
+              <h3 className="font-semibold mt-4">Paragens:</h3>
+              <ul className="list-disc list-inside text-sm max-h-40 overflow-y-auto">
+                {trajeto.paragens.map((paragem, index) => (
+                  <li key={index}>{paragem}</li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="text-gray-500">Informações do trajeto não disponíveis.</p>
+          )}
+          <button
+            onClick={fetchTrajeto}
+            className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+          >
+            Atualizar Trajeto
+          </button>
+        </div>
       </main>
     </div>
   );
 }
 
-export default GestaoHorariosPage;
+export default CarreiraPage;
 
