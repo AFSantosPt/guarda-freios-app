@@ -250,23 +250,22 @@ function DashboardPage() {
 
           <nav className="bg-white border-t border-gray-200 px-4 py-2">
         <div className="flex justify-between items-center">
-          {["Início", "Ordens", "Avarias", "Horários", "Calendário", "Serviços"].map((item, index) => (
+          {["Início", "Ordens", "Avarias", "Carreiras", "Calendário"].map((item, index) => (
             <button
               key={index}
               onClick={() => {
                 if (item === "Início") navigate("/dashboard");
                 else if (item === "Ordens") navigate("/ordens-servico");
                 else if (item === "Avarias") navigate("/gestao-avarias");
-                else if (item === "Horários") navigate("/gestao-horarios");
+                else if (item === "Carreiras") navigate("/gestao-horarios"); // Usar a rota antiga de Horários para Carreiras
                 else if (item === "Calendário") navigate("/calendario");
-                else if (item === "Serviços") navigate("/consultar-servico");
               }}
               className={`flex flex-col items-center py-2 px-1 rounded-lg transition-colors duration-200 ${
                 index === 0 ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
               <span className="text-lg mb-1">
-                {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '⚠️' : index === 3 ? '🕐' : index === 4 ? '📅' : '⚙️'}
+                {index === 0 ? '🏠' : index === 1 ? '📋' : index === 2 ? '⚠️' : index === 3 ? '🚋' : index === 4 ? '📅' : '⚙️'}
               </span>
               <span className="text-xs font-medium">{item}</span>
             </button>
