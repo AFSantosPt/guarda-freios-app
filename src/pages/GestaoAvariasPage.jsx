@@ -6,7 +6,7 @@ function GestaoAvariasPage() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-  const [chapa, setChapa] = useState('');
+  const [numeroVeiculo, setNumeroVeiculo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [foto, setFoto] = useState(null);
   const [avarias, setAvarias] = useState([
@@ -18,24 +18,32 @@ function GestaoAvariasPage() {
   const [filtroEstado, setFiltroEstado] = useState('Todos');
   const [filtroData, setFiltroData] = useState('');
 
-  const handleReportarAvaria = (e) => {
+  const handleReportarAvaria = async (e) => {
     e.preventDefault();
-    if (chapa && descricao) {
-      const novaAvaria = {
-        id: avarias.length + 1,
-        chapa,
-        data: new Date().toISOString().slice(0, 10),
-        estado: 'Pendente',
-        descricao,
-        reporter: user.numeroFuncionario,
-      };
-      setAvarias([...avarias, novaAvaria]);
-      setChapa('');
-      setDescricao('');
-      setFoto(null);
-      alert('Avaria reportada com sucesso!');
+    if (numeroVeiculo && descricao) {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        // Simulação de upload de ficheiro (o upload real seria mais complexo)
+        const ficheiros = foto ? ['/url/da/foto.jpg'] : []; 
+
+        const response = await axios.post(`${API_URL}/api/avariass`, {
+          numero_veiculo: numeroVeiculo,
+          descricao,
+          ficheiros,
+        });
+
+        const novaAvaria = response.data.avaria;
+        setAvarias([novaAvaria, ...avarias]); // Adicionar a nova avaria ao topo
+        setNumeroVeiculo('');
+        setDescricao('');
+        setFoto(null);
+        alert('Avaria reportada com sucesso!');
+      } catch (error) {
+        console.error('Erro ao reportar avaria:', error);
+        alert(`Erro ao reportar avaria: ${error.response?.data?.message || 'Erro de rede'}`);
+      }
     } else {
-      alert('Por favor, preencha a chapa e a descrição da avaria.');
+      alert('Por favor, preencha o número do veículo e a descrição da avaria.');
     }
   };
 
@@ -48,7 +56,7 @@ function GestaoAvariasPage() {
   };
 
   const avariasFiltradas = avarias.filter(avaria => {
-    const matchChapa = filtroChapa ? avaria.chapa.includes(filtroChapa) : true;
+    const matchChapa = filtroChapa ? avaria.numero_veiculo.includes(filtroChapa) : true;
     const matchEstado = filtroEstado === 'Todos' ? true : avaria.estado === filtroEstado;
     const matchData = filtroData ? avaria.data === filtroData : true;
     return matchChapa && matchEstado && matchData;
@@ -74,12 +82,12 @@ function GestaoAvariasPage() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Reportar Nova Avaria</h2>
           <form onSubmit={handleReportarAvaria} className="space-y-4">
             <div>
-              <label htmlFor="chapa" className="block text-sm font-medium text-gray-700">Chapa (Número do Veículo)</label>
+              <label htmlFor="numeroVeiculo" className="block text-sm font-medium text-gray-700">Nº Veículo</label>
               <input
                 type="text"
-                id="chapa"
-                value={chapa}
-                onChange={(e) => setChapa(e.target.value)}
+                id="numeroVeiculo"
+                value={numeroVeiculo}
+                onChange={(e) => setNumeroVeiculo(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="Ex: 501"
                 required
@@ -123,7 +131,7 @@ function GestaoAvariasPage() {
           {/* Filtros */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <label htmlFor="filtroChapa" className="block text-sm font-medium text-gray-700">Filtrar por Chapa</label>
+              <label htmlFor="filtroChapa" className="block text-sm font-medium text-gray-700">Filtrar por Nº Veículo</label>
               <input
                 type="text"
                 id="filtroChapa"
@@ -167,7 +175,7 @@ function GestaoAvariasPage() {
               {avariasFiltradas.map((avaria) => (
                 <div key={avaria.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-md font-bold text-gray-900">Chapa: {avaria.chapa}</h3>
+                    <h3 className="text-md font-bold text-gray-900">Nº Veículo: {avaria.numero_veiculo}</h3>
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                       avaria.estado === 'Pendente' ? 'bg-red-100 text-red-800' :
                       avaria.estado === 'Em Resolução' ? 'bg-yellow-100 text-yellow-800' :
