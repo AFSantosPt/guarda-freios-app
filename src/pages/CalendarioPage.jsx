@@ -142,6 +142,7 @@ const CalendarioPage = () => {
                 const dateKey = day ? formatDateKey(currentMonth.getFullYear(), currentMonth.getMonth(), day) : null;
                 const hasServices = dateKey && services[dateKey];
                 const isSelected = dateKey === selectedDate;
+                const isToday = day && dateKey === formatDateKey(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
                 
                 return (
                   <button
@@ -150,9 +151,10 @@ const CalendarioPage = () => {
                     className={`
                       h-12 w-12 rounded-full flex items-center justify-center text-sm
                       ${!day ? 'invisible' : ''}
-                      ${isSelected ? 'bg-yellow-400 text-black font-bold' : ''}
-                      ${hasServices && !isSelected ? 'bg-blue-100 text-blue-800' : ''}
-                      ${!hasServices && !isSelected ? 'text-gray-600 hover:bg-gray-100' : ''}
+${isSelected ? 'bg-yellow-400 text-black font-bold' : ''}
+	                      ${hasServices && !isSelected ? 'bg-blue-100 text-blue-800' : ''}
+	                      ${!hasServices && !isSelected ? 'text-gray-600 hover:bg-gray-100' : ''}
+	                      ${isToday && !isSelected ? 'border-2 border-blue-500' : ''}
                     `}
                     disabled={!day}
                   >
@@ -202,8 +204,8 @@ const CalendarioPage = () => {
                         <p className="font-medium">{service.horaInicio} → {service.horaFim}</p>
                       </div>
                       <div>
-                        <p className="text-gray-600">Viatura</p>
-                        <p className="font-medium">{service.viatura}</p>
+<p className="text-gray-600">Carreira</p>
+	                        <p className="font-medium">{service.viatura}</p>
                       </div>
                       <div>
                         <p className="text-gray-600">Afetação</p>
@@ -287,14 +289,14 @@ const CalendarioPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Viatura
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                    placeholder="Ex: 28E/01"
-                  />
+<label className="block text-sm font-medium text-gray-700 mb-1">
+	                    Carreira
+	                  </label>
+	                  <input
+	                    type="text"
+	                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+	                    placeholder="Ex: 28E/01"
+	                  />
                 </div>
 
                 <div>
@@ -316,12 +318,22 @@ const CalendarioPage = () => {
                   >
                     Cancelar
                   </button>
-                  <button
-                    type="submit"
-                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-                  >
-                    Guardar
-                  </button>
+<div className="flex items-center">
+	                    <input
+	                      type="checkbox"
+	                      id="visivel"
+	                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+	                    />
+	                    <label htmlFor="visivel" className="ml-2 block text-sm text-gray-900">
+	                      Visível para todos
+	                    </label>
+	                  </div>
+	                  <button
+	                    type="submit"
+	                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+	                  >
+	                    Adicionar
+	                  </button>
                 </div>
               </form>
             </div>
