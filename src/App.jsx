@@ -1,6 +1,7 @@
 import React from 'react'
 import "leaflet/dist/leaflet.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import GestaoAvariasPage from './pages/GestaoAvariasPage';
 import GestaoHorariosPage from './pages/GestaoHorariosPage';
 import CalendarioPage from './pages/CalendarioPage';
@@ -32,24 +33,60 @@ const useAuth = () => {
 
 // Provider de autenticação
 function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user')
+    return storedUser ? JSON.parse(storedUser) : null
+  })
+  const [token, setToken] = useState(localStorage.getItem('token'))
 
-  const login = (numeroFuncionario) => {
-    // Simular verificação de tipo de utilizador
-    // Em uma aplicação real, isso viria de uma API
-    let userType = 'Tripulante'
-    if (numeroFuncionario === '18001' || numeroFuncionario === '180939') {
-      userType = 'Gestor'
+  // Configurar axios para incluir o token
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  }
+
+  const login = async (numero, password) => {
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
+        numero,
+        password,
+      })
+
+      const { token, user } = response.data
+
+      // Armazenar no localStorage
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user))
+
+      // Configurar axios
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+      setUser(user)
+      setToken(token)
+      return { success: true }
+    } catch (error) {
+      console.error('Erro no login:', error)
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro de rede ou servidor',
+      }
     }
-    setUser({ numero: numeroFuncionario, tipo: userType })
   }
 
   const logout = () => {
+    // Limpar localStorage
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
+    // Limpar axios header
+    delete axios.defaults.headers.common['Authorization']
+
     setUser(null)
+    setToken(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
@@ -59,13 +96,26 @@ function AuthProvider({ children }) {
 function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
+  const [erro, setErro] = useState(null)
   const [funcionario, setFuncionario] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    login(funcionario)
-    navigate('/dashboard')
+    setErro(null)
+
+    if (!funcionario || !password) {
+      setErro('Por favor, preencha todos os campos.')
+      return
+    }
+
+    const result = await login(funcionario, password)
+
+    if (result.success) {
+      navigate('/dashboard')
+    } else {
+      setErro(result.message || 'Utilizador ou senha inválidos')
+    }
   }
 
   return (
@@ -83,6 +133,11 @@ function LoginPage() {
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
+          {erro && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <span className="block sm:inline">{erro}</span>
+            </div>
+          )}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               N.º de Funcionário
