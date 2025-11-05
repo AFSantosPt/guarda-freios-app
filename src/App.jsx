@@ -13,6 +13,7 @@ import Carreira25EPage from './pages/Carreira25EPage';
 import Carreira28EPage from './pages/Carreira28EPage';
 import ChatCarreiraPage from './pages/ChatCarreiraPage';
 import MudarPasswordPage from './pages/MudarPasswordPage';
+import UserManagementPage from './pages/UserManagementPage';
 import { useState, createContext, useContext } from 'react'
 import './App.css'
 
@@ -201,7 +202,7 @@ function DashboardPage() {
           <h1 className="text-xl font-bold text-gray-900">Guarda-Freios</h1>
           {user && (
             <p className="text-sm text-gray-600">
-              {user.numero} - {user.tipo}
+              {user.numero} - {user.cargo}
             </p>
           )}
         </div>
@@ -582,129 +583,6 @@ function PesquisaCarrosPage() {
 }
 
 // Página de Gestão de Utilizadores (apenas para Tripulante+)
-function UserManagementPage() {
-  const navigate = useNavigate()
-  const [numeroFuncionario, setNumeroFuncionario] = useState('')
-  const [password, setPassword] = useState('')
-  const [tipoUtilizador, setTipoUtilizador] = useState('Tripulante')
-  const [utilizadores, setUtilizadores] = useState([
-    { id: 1, numero: '18001', tipo: 'Tripulante+' },
-    { id: 2, numero: '18002', tipo: 'Tripulante' },
-    { id: 3, numero: '18003', tipo: 'Tripulante' }
-  ])
-
-  const handleAddUser = (e) => {
-    e.preventDefault()
-    if (numeroFuncionario && password) {
-      const newUser = {
-        id: utilizadores.length + 1,
-        numero: numeroFuncionario,
-        tipo: tipoUtilizador
-      }
-      setUtilizadores([...utilizadores, newUser])
-      setNumeroFuncionario('')
-      setPassword('')
-      setTipoUtilizador('Tripulante')
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm px-4 py-4 flex items-center">
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="mr-4 p-2 text-blue-600"
-        >
-          ←
-        </button>
-        <h1 className="text-xl font-bold text-gray-900">Gestão de Utilizadores</h1>
-      </header>
-
-      <main className="p-4">
-        {/* Formulário para adicionar novo utilizador */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Adicionar Novo Utilizador</h2>
-          
-          <form onSubmit={handleAddUser} className="space-y-4">
-            <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                N.º de Funcionário
-              </label>
-              <input
-                type="text"
-                placeholder="ex: 180xxx"
-                value={numeroFuncionario}
-                onChange={(e) => setNumeroFuncionario(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Tipo de Utilizador
-              </label>
-              <select
-                value={tipoUtilizador}
-                onChange={(e) => setTipoUtilizador(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="Tripulante">Tripulante</option>
-                <option value="Gestor">Gestor</option>
-              </select>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
-            >
-              Adicionar Utilizador
-            </button>
-          </form>
-        </div>
-
-        {/* Lista de utilizadores existentes */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Utilizadores Existentes</h3>
-          </div>
-          
-          <div className="divide-y divide-gray-200">
-            {utilizadores.map((user) => (
-              <div key={user.id} className="px-6 py-4 flex justify-between items-center">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">N.º {user.numero}</p>
-                  <p className="text-sm text-gray-600">{user.tipo}</p>
-                </div>
-                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                  user.tipo === 'Gestor' 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-blue-100 text-blue-800'
-                }`}>
-                  {user.tipo}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
-  )
-}
 
 // Componente para proteger rotas que requerem Tripulante+
 function ProtectedRoute({ children, requireTripulantePlus = false }) {
@@ -716,7 +594,7 @@ function ProtectedRoute({ children, requireTripulantePlus = false }) {
     return null
   }
 
-  if (requireTripulantePlus && user.tipo !== 'Gestor') {
+  if (requireTripulantePlus && user.cargo !== 'Gestor') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
