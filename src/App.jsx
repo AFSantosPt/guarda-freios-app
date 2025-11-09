@@ -192,7 +192,8 @@ function DashboardPage() {
     { title: '28E', onClick: () => navigate('/carreira-28e'), icon: '🚋' },
     { title: 'Avarias', onClick: () => navigate('/gestao-avarias'), icon: '🔧' },
     { title: 'Horários', onClick: () => navigate('/gestao-horarios'), icon: '🕐' },
-    { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' }
+    { title: 'Calendário', onClick: () => navigate('/calendario'), icon: '📅' },
+    ...(user?.cargo === 'Gestor' ? [{ title: 'Gestão de Utilizadores', onClick: () => navigate('/gestao-utilizadores'), icon: '👥' }] : [])
   ]
 
   return (
@@ -213,7 +214,7 @@ function DashboardPage() {
           >
             Mudar Password
           </button>
-          {user?.tipo === 'Gestor' && (
+          {user?.cargo === 'Gestor' && (
             <button 
               onClick={() => navigate('/gestao-utilizadores')}
               className="text-blue-600 font-medium text-sm"
