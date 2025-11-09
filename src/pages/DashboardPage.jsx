@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthContext } from '../App'
 
 import { 
   FileText, 
@@ -20,6 +22,7 @@ import {
 export default function DashboardPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { user } = useContext(AuthContext)
 
   const menuItems = [
     { 
@@ -50,7 +53,14 @@ export default function DashboardPage() {
       onClick: () => navigate('/detalhes-ordem'),
       bgColor: 'bg-indigo-50 hover:bg-indigo-100',
       iconColor: 'text-indigo-600'
-    }
+    },
+    ...(user?.cargo === 'Gestor' ? [{
+      title: 'Gestão de Utilizadores',
+      icon: '👥',
+      onClick: () => navigate('/gestao-utilizadores'),
+      bgColor: 'bg-green-50 hover:bg-green-100',
+      iconColor: 'text-green-600'
+    }] : [])
   ]
 
   const bottomNavItems = [
